@@ -9,6 +9,7 @@ import { MarkdownContent } from "./markdown";
 import { QuickOverview } from "./quick-overview";
 import { FloatingSearch } from "./floating-search";
 import { ResearchVisuals } from "./research-visuals";
+import { GlossaryEnhancer } from "./glossary";
 
 type Chapter = {
   id: string;
@@ -180,6 +181,7 @@ export default function Home() {
             </div>
             {activeId === "quick" ? <QuickOverview /> : <><ResearchVisuals id={activeId} /><MarkdownContent source={active.source} /></>}
           </article>
+          <GlossaryEnhancer rootId={active.id} />
 
           <div className="chapter-pager section-shell">
             {activeIndex > 0 ? <button className="previous" onClick={() => goTo(chapters[activeIndex - 1].id)}><span>上一章</span><b>{chapters[activeIndex - 1].shortTitle}</b></button> : <span />}

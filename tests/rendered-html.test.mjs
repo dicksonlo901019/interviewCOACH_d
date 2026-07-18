@@ -9,6 +9,7 @@ const sourceUrls = [
   new URL("app/quick-overview.tsx", root),
   new URL("app/stablecoin-quick-modules.tsx", root),
   new URL("app/floating-search.tsx", root),
+  new URL("app/glossary.tsx", root),
   new URL("app/coach/page.tsx", root),
   new URL("content/ctbc-blockchain-regulation-15min-cram.md", root),
   new URL("content/quick-stablecoin-search-index.md", root),
@@ -52,12 +53,13 @@ test("server-renders the current CTBC interview workspace", async () => {
   assert.match(html, /\u958b\u555f\u5373\u6642\u67e5\u8a62/);
 });
 
-test("keeps handbook, research, search, navigation, and coach wired to current sources", async () => {
-  const [page, layout, overview, search, coach, handbook] = await Promise.all([
+test("keeps handbook, research, search, glossary, navigation, and coach wired to current sources", async () => {
+  const [page, layout, overview, search, glossary, coach, handbook] = await Promise.all([
     readFile(new URL("app/page.tsx", root), "utf8"),
     readFile(new URL("app/layout.tsx", root), "utf8"),
     readFile(new URL("app/quick-overview.tsx", root), "utf8"),
     readFile(new URL("app/floating-search.tsx", root), "utf8"),
+    readFile(new URL("app/glossary.tsx", root), "utf8"),
     readFile(new URL("app/coach/page.tsx", root), "utf8"),
     readFile(new URL("content/ctbc-virtual-asset-stablecoin-pm-interview-prep.md", root), "utf8"),
   ]);
@@ -67,6 +69,7 @@ test("keeps handbook, research, search, navigation, and coach wired to current s
   assert.match(page, /ctbc-virtual-asset-stablecoin-pm-interview-prep\.md\?raw/);
   assert.match(page, /<QuickOverview \/>/);
   assert.match(page, /<FloatingSearch chapters=\{chapters\} onSelect=\{goTo\} \/>/);
+  assert.match(page, /<GlossaryEnhancer rootId=\{active\.id\} \/>/);
   assert.match(page, /window\.history\.replaceState\(null, "", `#\$\{id\}`\)/);
   assert.match(page, /href="\.\/coach\/"/);
   assert.match(layout, /title:\s*"\u4e2d\u570b\u4fe1\u8a17\uff5c\u865b\u64ec\u8cc7\u7522 PM \u9762\u8a66\u4f5c\u6230\u5ba4"/);
@@ -74,6 +77,10 @@ test("keeps handbook, research, search, navigation, and coach wired to current s
   assert.match(overview, /StablecoinQuickModules/);
   assert.match(search, /\u627e\u4e0d\u5230「\{query\.trim\(\)\}」\u7684\u76f8\u95dc\u5167\u5bb9/);
   assert.match(search, /aria-label="\u5373\u6642\u641c\u5c0b\u7db2\u7ad9\u5167\u5bb9"/);
+  assert.match(glossary, /term: "DD"/);
+  assert.match(glossary, /term: "PoC"/);
+  assert.match(glossary, /aria-haspopup/);
+  assert.match(glossary, /role="dialog"/);
   assert.match(coach, /\u8f09\u5165\u793a\u7bc4\u554f\u984c/);
   assert.match(coach, /\u8cc7\u6599\u6c92\u6709\u5beb、\u5c65\u6b77\u6c92\u6709\u505a\u904e\u7684\u4e8b/);
   assert.match(handbook, /JD \u8b49\u64da\u908a\u754c/);
