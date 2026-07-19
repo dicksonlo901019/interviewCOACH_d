@@ -88,9 +88,10 @@ test("keeps handbook, research, search, glossary, navigation, and coach wired to
 });
 
 test("includes the two requested research expansions and GitHub Pages build", async () => {
-  const [stablecoin, research, pagesHome, pagesCoach] = await Promise.all([
+  const [stablecoin, research, handbook, pagesHome, pagesCoach] = await Promise.all([
     readFile(new URL("app/stablecoin-quick-modules.tsx", root), "utf8"),
     readFile(new URL("content/ctbc-deep-research-interview-addendum.md", root), "utf8"),
+    readFile(new URL("content/ctbc-virtual-asset-stablecoin-pm-interview-prep.md", root), "utf8"),
     readFile(new URL("pages-dist/index.html", root), "utf8"),
     readFile(new URL("pages-dist/coach/index.html", root), "utf8"),
   ]);
@@ -101,6 +102,16 @@ test("includes the two requested research expansions and GitHub Pages build", as
   assert.match(research, /R6\. Crypto Compliance Stack/);
   assert.match(research, /Reusable KYC/);
   assert.match(research, /Fireblocks/);
+  assert.match(research, /2026 年 6 月 30 日三讀通過/);
+  assert.match(research, /7 月 15 日咨請總統公布/);
+  assert.doesNotMatch(research, /2026 年 6 月 26 日/);
+  assert.match(handbook, /施行後 12 個月內申請、21 個月內取得許可/);
+  assert.match(handbook, /初期傾向由銀行業先行/);
+  assert.doesNotMatch(handbook, /初期傾向由金融機構先行/);
+  assert.doesNotMatch(handbook, /2026 年 6 月 26 日/);
+  assert.match(stablecoin, /2026-07-19/);
+  assert.match(stablecoin, /約 3,088\.6 億美元/);
+  assert.match(stablecoin, /約 59\.59%/);
   assert.match(pagesHome, /interviewCOACH_d\/assets/);
   assert.match(pagesCoach, /interviewCOACH_d\/assets/);
 });

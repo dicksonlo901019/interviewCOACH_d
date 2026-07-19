@@ -69,15 +69,15 @@ const bankFlow = [
 ] as const;
 
 const market = [
-  ["1", "USDT", "1,840.59 億美元", "中心化儲備型", "全球交易與流動性主力"],
-  ["2", "USDC", "731.69 億美元", "中心化儲備型", "機構、支付與鏈上結算"],
-  ["3", "USDS", "65.86 億美元", "協議管理多抵押型", "Sky Protocol 原生穩定幣"],
-  ["4", "DAI", "48.56 億美元", "協議管理多抵押型", "傳統 DeFi 穩定幣"],
-  ["5", "USD1", "43.48 億美元", "中心化儲備型", "快速成長的新興主流"],
-  ["6", "USDe", "40.25 億美元", "合成美元", "加密資產與衍生品避險"],
-  ["7", "USDG", "28.89 億美元", "中心化儲備型", "受監管合作網路型"],
-  ["8", "PYUSD", "28.40 億美元", "中心化儲備型", "PayPal 支付生態"],
-  ["9", "RLUSD", "15.16 億美元", "中心化儲備型", "機構跨境支付與結算"],
+  ["1", "USDT", "1,840.50 億美元", "中心化儲備型", "全球交易與流動性主力"],
+  ["2", "USDC", "733.77 億美元", "中心化儲備型", "機構、支付與鏈上結算"],
+  ["3", "USDS", "67.00 億美元", "協議管理多抵押型", "Sky Protocol 原生穩定幣"],
+  ["4", "DAI", "48.53 億美元", "協議管理多抵押型", "傳統 DeFi 穩定幣"],
+  ["5", "USD1", "42.69 億美元", "中心化儲備型", "快速成長的新興主流"],
+  ["6", "USDe", "40.15 億美元", "合成美元", "加密資產與衍生品避險"],
+  ["7", "USDG", "31.61 億美元", "中心化儲備型", "受監管合作網路型"],
+  ["8", "PYUSD", "28.83 億美元", "中心化儲備型", "PayPal 支付生態"],
+  ["9", "RLUSD", "15.31 億美元", "中心化儲備型", "機構跨境支付與結算"],
 ] as const;
 
 const comparison = [
@@ -203,10 +203,10 @@ export function StablecoinQuickModules() {
         </div>
         <p className="quick-note">市值前五不等於銀行可無條件支援；監管架構完整也不代表一定有足夠流動性。</p>
 
-        <div className="quick-data-head"><div><span>資料快照</span><strong>2026-07-16</strong></div><p>市場數字會持續變動，排名必須與日期一起閱讀。[S1]</p></div>
-        <div className="quick-stat-grid"><article><strong>約 3,095 億美元</strong><span>穩定幣總市值</span></article><article><strong>約 59.47%</strong><span>USDT 市占</span></article><article><strong>明顯領先</strong><span>USDT + USDC</span></article><article><strong>市場前五</strong><span>USD1</span></article></div>
+        <div className="quick-data-head"><div><span>資料快照</span><strong>2026-07-19</strong></div><p>市場數字會持續變動；下表排名僅限九種面試重點資產，不是全市場前九名。[S1]</p></div>
+        <div className="quick-stat-grid"><article><strong>約 3,088.6 億美元</strong><span>穩定幣總市值</span></article><article><strong>約 59.59%</strong><span>USDT 市占</span></article><article><strong>明顯領先</strong><span>USDT + USDC</span></article><article><strong>九種精選</strong><span>面試重點資產</span></article></div>
         <div className="quick-table-wrap"><table><thead><tr><th>排名</th><th>穩定幣</th><th>約略市值</th><th>分類</th><th>快速定位</th></tr></thead><tbody>{market.map((row) => <tr key={row[1]}>{row.map((cell) => <td key={cell}>{cell}</td>)}</tr>)}</tbody></table></div>
-        <div className="quick-warning-card amber"><p>BUIDL、USDY 等具有淨值、收益或證券／基金性質的 Tokenized Treasury／RWA Token，不應與面值固定的支付型穩定幣混為一類。</p></div>
+        <div className="quick-warning-card amber"><p>BUIDL、USYC、USDY 等具有淨值、收益或證券／基金性質的 Tokenized Treasury／RWA Token 已排除於本表，不應與面值固定的支付型穩定幣混為一類。</p></div>
 
         <h3 className="quick-subtitle">三種穩定機制</h3>
         <div className="quick-card-grid three">
@@ -215,10 +215,10 @@ export function StablecoinQuickModules() {
           <Card eyebrow="C · [S9]" title="合成美元"><p>USDe 以加密資產加空頭期貨／永續合約構成 Delta-neutral 結構；不是傳統銀行帳戶內的 1:1 法幣儲備。</p></Card>
         </div>
 
-        <h3 className="quick-subtitle">主流穩定幣比較</h3>
+        <h3 className="quick-subtitle">九種面試重點穩定幣比較</h3>
         <div className="quick-table-wrap quick-comparison-table"><table><thead><tr><th>項目</th><th>USDT</th><th>USDC</th><th>USD1</th><th>USDG</th><th>PYUSD</th><th>RLUSD</th><th>USDS／DAI</th><th>USDe</th></tr></thead><tbody>{comparison.map((row) => <tr key={row[0]}>{row.map((cell) => <td key={cell}>{cell}</td>)}</tr>)}</tbody></table></div>
         <p className="quick-note">完整比較依據：[S2][S5][S6][S7][S8][S9][S10][S11][S12][S13]。手機版表格可橫向滑動，Accordion 則提供逐一資產閱讀模式。</p>
-        <div className="quick-coin-cards">{coins.map((coin) => <details key={coin.name} id={coin.name === "USD1" ? "quick-usd1" : undefined}><summary><span>{coin.name}</span><strong>{coin.subtitle}</strong><i>{coin.priority}</i></summary><div><dl><dt>類型</dt><dd>{coin.type}</dd><dt>主要優勢</dt><dd>{coin.advantage}</dd><dt>主要風險</dt><dd>{coin.risk}</dd><dt>適用場景</dt><dd>{coin.use}</dd></dl><p className="quick-coin-detail">{coin.detail}</p>{coin.name === "USD1" ? <div className="quick-usd1-status"><b>Market Mainstream：YES</b><b>Institutional Maturity：EMERGING</b><b>Bank Admission：CONDITIONAL</b><p>依本頁 2026-07-16 快照已位居第五，因此市場層面屬主流；但 2025 年才推出，制度成熟度、壓力測試、持有人分散與銀行採用歷史仍短於 USDT／USDC。銀行應額外檢查 BitGo／WLF 法律分工、儲備與確信報告、Mint／Redeem、地址控制、持有人／交易所／鏈別集中度、真實支付量及關係人聲譽風險。[S1][S7][S8]</p></div> : null}</div></details>)}</div>
+        <div className="quick-coin-cards">{coins.map((coin) => <details key={coin.name} id={coin.name === "USD1" ? "quick-usd1" : undefined}><summary><span>{coin.name}</span><strong>{coin.subtitle}</strong><i>{coin.priority}</i></summary><div><dl><dt>類型</dt><dd>{coin.type}</dd><dt>主要優勢</dt><dd>{coin.advantage}</dd><dt>主要風險</dt><dd>{coin.risk}</dd><dt>適用場景</dt><dd>{coin.use}</dd></dl><p className="quick-coin-detail">{coin.detail}</p>{coin.name === "USD1" ? <div className="quick-usd1-status"><b>Market Mainstream：YES</b><b>Institutional Maturity：EMERGING</b><b>Bank Admission：CONDITIONAL</b><p>依本頁 2026-07-19 快照，在本表九種面試重點資產中位居第五，因此市場層面屬主流；但 2025 年才推出，制度成熟度、壓力測試、持有人分散與銀行採用歷史仍短於 USDT／USDC。銀行應額外檢查 BitGo／WLF 法律分工、儲備與確信報告、Mint／Redeem、地址控制、持有人／交易所／鏈別集中度、真實支付量及關係人聲譽風險。[S1][S7][S8]</p></div> : null}</div></details>)}</div>
         <p className="quick-note">USDC 的儲備 Attestation（確信報告）不等於對整間公司完整財務報表的 Audit。協議型也不等於沒有集中或現實資產風險；USDe 的 Reserve Fund 是緩衝，不是銀行存款式 1:1 美元儲備。</p>
 
         <h3 id="quick-bank-admission" className="quick-subtitle">銀行選擇穩定幣的十項框架</h3>
@@ -232,7 +232,7 @@ export function StablecoinQuickModules() {
 
         <blockquote className="quick-answer-card"><span>面試版結論</span>銀行不能只用市值決定支援哪種穩定幣。USDT 強在流動性與需求，USDC 偏機構整合，PYUSD 偏支付生態，RLUSD 偏企業跨境，USDG 偏合作網路。USD1 按市值已是主流，但制度成熟度仍短於 USDT／USDC，應採條件式准入；USDS、DAI、USDe 則有不同抵押、治理與衍生品風險，不能套用法幣儲備型政策。</blockquote>
 
-        <footer className="quick-source-list"><div><span>資料來源與更新日期</span><strong>Last verified: 2026-07-16</strong></div><ol>{SOURCES.map(([id, name, url]) => <li key={id}><b>{id}</b><a href={url} target="_blank" rel="noopener noreferrer">{name}</a><small>Publisher／Title：{name}<br />Publication date：公告頁依原始來源；產品／文件頁持續更新<br />Accessed date：2026-07-16</small></li>)}</ol></footer>
+        <footer className="quick-source-list"><div><span>資料來源與更新日期</span><strong>Market snapshot refreshed: 2026-07-19</strong></div><ol>{SOURCES.map(([id, name, url]) => <li key={id}><b>{id}</b><a href={url} target="_blank" rel="noopener noreferrer">{name}</a><small>Publisher／Title：{name}<br />Publication date：公告頁依原始來源；產品／文件頁持續更新<br />Accessed date：2026-07-16；S1 市場快照更新於 2026-07-19</small></li>)}</ol></footer>
       </section>
     </>
   );
