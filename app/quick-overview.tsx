@@ -156,6 +156,9 @@ export function QuickOverview() {
         <blockquote>虛擬資產與穩定幣產品策略及解決方案 PM，負責把國際區塊鏈商業模式，轉化為銀行可以合規營運、技術交付，並提供給企業客戶使用的金融產品。</blockquote>
         <div className="quick-keywords" aria-label="職位核心關鍵詞">{keywords.map((keyword) => <span key={keyword}>{keyword}</span>)}</div>
         <nav className="quick-anchor-nav" aria-label="快速複習新增主題">
+          <a href="#research-2">全球銀行買賣模式</a>
+          <a href="#chapter-8">台灣銀行 MVP</a>
+          <a href="#chapter-25">買入／賣出風控</a>
           <a href="#quick-usdt-aml">USDT AML/CFT</a>
           <a href="#quick-issuer-freeze">發行商凍結</a>
           <a href="#quick-stablecoin-compare">穩定幣比較</a>

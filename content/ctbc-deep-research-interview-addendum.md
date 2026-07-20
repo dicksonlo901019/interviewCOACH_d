@@ -36,7 +36,7 @@
 
 ## R2. 全球銀行如何把 Crypto 納入合規業務：六種角色與銀行案例
 
-> 資料更新至 2026-07-16。銀行不是把 Crypto「洗成」一般金融商品，而是透過牌照、客群限制、可接受資產、託管模式、儲備管理、交易監控及清算規則，把數位資產風險轉為可以治理、稽核及向監管機關說明的金融業務。
+> 資料更新至 2026-07-21，並整合《全球銀行穩定幣買入／賣出業務研究》（研究基準日 2026-07-17）。銀行不是把 Crypto「洗成」一般金融商品，而是透過牌照、客群限制、可接受資產、託管模式、儲備管理、交易監控及清算規則，把數位資產風險轉為可以治理、稽核及向監管機關說明的金融業務。
 
 ### 2.1 六種銀行角色
 
@@ -71,7 +71,40 @@
 
 包含 BTC／ETH 現貨、機構 OTC、Prime Brokerage、流動性、抵押品管理、法幣／數位資產結算，以及銀行系統與公鏈／私有鏈的連接。
 
-### 2.2 HSBC Hong Kong｜從代幣化商品到持牌穩定幣
+### 2.2 銀行穩定幣買入與賣出：兩條不同的產品旅程
+
+研究底稿《全球銀行穩定幣買入／賣出業務研究》（基準日 2026-07-17）補足一個重要差異：**買入端主要從既有銀行帳戶與 KYC 客戶出發；賣出端則把外部鏈上資產帶回銀行，因此來源驗證與污染風險通常更高。**
+
+| 項目 | 客戶向銀行買入穩定幣 | 客戶向銀行賣出穩定幣 |
+| --- | --- | --- |
+| 資金方向 | 銀行存款／法幣 → 穩定幣 | 穩定幣 → 銀行存款／法幣 |
+| 標準流程 | 下單與 RFQ 報價 → 適合度／制裁檢查 → 扣款 → 成交 → 銀行託管或白名單錢包 | 錢包登記 → 地址與歷史預審 → 轉入 → 鏈上終局性 → 交易／發行人贖回 → 延遲或法幣入帳 |
+| 主要風險 | 產品適合度、發行人與脫鉤、最佳執行、託管 | 鏈上來源、制裁／犯罪收益、假入金、錯鏈／跨鏈與智能合約風險 |
+| 關鍵控制 | 產品／鏈／錢包白名單、限額、報價揭露、託管 | Wallet Ownership、KYT、Travel Rule、SoF／SoW、冷卻期、人工覆核與拒絕／凍結 |
+
+> 面試時不要把「買賣」當成同一條流程反向執行。賣出端必須先判斷資產是否可以被銀行接受，再決定能否成交和入帳；這是銀行方案的風險核心。
+
+### 2.3 四種銀行營運模式
+
+| 模式 | 銀行角色 | 優點 | 必須承擔的責任 |
+| --- | --- | --- | --- |
+| A. 自營交易＋託管 | 銀行自行報價、成交、保管與鏈上轉帳 | 體驗完整、收入較高 | 交易資格、資本、流動性、託管與 AML 全責 |
+| B. 銀行前端＋持牌合作方 | 銀行負責客戶與法幣；合作方負責交易／錢包 | 較快上市、降低技術成本 | 責任切分、第三方 DD、資料共享與替代方案 |
+| C. 託管＋法幣通道 | 客戶在外部取得資產後轉入銀行託管 | 避免自營做市風險 | 外部入金來源審查仍然嚴格 |
+| D. 存款代幣化 | 銀行存款轉成受控鏈上的存款代幣 | 保留存款、支援 24／7 結算 | 客群通常限機構，網路與互通性較受限 |
+
+銀行也可以在賣出端選擇自營 OTC 買入、代理出售給交易所／做市商，或直接送發行人贖回。產品經理必須先定義銀行是交易對手、代理人、託管人還是法幣通道，不能用「串 API」模糊法律責任。
+
+### 2.4 全球案例：先分清楚「第三方穩定幣」與「銀行存款代幣」
+
+| 機構 | 已公開能力 | 面試時的正確定位 |
+| --- | --- | --- |
+| BBVA Switzerland | 私人與企業銀行客戶可交易、託管 USDC，並轉換成美元、歐元等法幣 | 最接近傳統銀行直接提供第三方穩定幣買賣與託管的案例 |
+| J.P. Morgan／Kinexys | 機構客戶透過 Blockchain Deposit Account 把存款轉為 JPM Coin（JPMD），可在 Base 上移轉並贖回現金 | 這是銀行存款代幣，不是零售 USDC／USDT 交易 |
+| DBS | 整合數位資產交易、託管、代幣化資產、Token Services 與機構結算 | 證明銀行可建立完整數位資產生態，但不等於一般零售穩定幣買賣 |
+| HSBC／Anchorpoint | 2026-04-10 取得香港穩定幣發行人牌照，仍須完成上線準備 | 已持牌、規劃推出；不可說成穩定幣已正式上線 |
+
+### 2.5 HSBC Hong Kong｜從代幣化商品到持牌穩定幣
 
 `Retail Investment` `Tokenised Deposit` `Stablecoin` `Digital Bond` `Tokenized Gold`
 
@@ -82,21 +115,21 @@
 
 **對中國信託的啟示**：不必先成為 Crypto Exchange；可依序研究企業客戶與 VASP Banking、跨境支付、代幣化存款／數位貨幣，以及代幣化金融商品與資產服務。
 
-### 2.3 J.P. Morgan／Kinexys｜機構支付與交收基礎設施
+### 2.6 J.P. Morgan／Kinexys｜機構支付與交收基礎設施
 
 `Institutional Only` `24/7 Payments` `Tokenized Assets` `On-chain Settlement` `Treasury Infrastructure`
 
-Kinexys 聚焦 24/7 機構支付、Blockchain Deposit Accounts、跨境清算、On-chain FX、Tokenized Assets、數位債券／商業票據、抵押品與鏈上現金交收；公開案例包括企業美元跨境付款與在 Solana 發行、結算機構商業票據。
+Kinexys 聚焦 24/7 機構支付、Blockchain Deposit Accounts、跨境清算、On-chain FX、Tokenized Assets、抵押品與鏈上現金交收。J.P. Morgan 官方明確把 JPM Coin 定位為銀行發行的存款代幣：機構客戶可把帳戶現金轉成 JPMD，在 Base 上支付、交割或提供抵押，再贖回帳戶現金。
 
 > 先解決銀行客戶的支付、流動性與資產交收，不是先推出零售幣幣交易。
 
-### 2.4 Standard Chartered｜交易、託管與代幣化平台
+### 2.7 Standard Chartered｜交易、託管與代幣化平台
 
 `Institutional Trading` `Custody` `Prime Services` `Tokenization` `Bank Integration`
 
 公開布局包括機構級 BTC／ETH 可交割現貨交易、Zodia Custody、Zodia Markets、Prime Services 與 Libeara。數位資產交易可整合機構客戶熟悉的外匯介面，並由合資格託管人完成結算。
 
-### 2.5 BNY｜託管與 Asset Servicing 的可驗證 Vendor Stack
+### 2.8 BNY｜託管與 Asset Servicing 的可驗證 Vendor Stack
 
 `Institutional Custody` `Asset Servicing` `Fireblocks` `Chainalysis` `A 明確模組`
 
@@ -131,8 +164,12 @@ Basel 加密資產審慎及揭露框架自 2026 年起適用；香港 Project En
 - [BNY｜Digital Asset Custody Platform｜2022-10-11｜Accessed 2026-07-16](https://www.bny.com/corporate/global/en/about-us/newsroom/press-release/bny-mellon-launches-new-digital-asset-custody-platform-130305.html)
 - [BIS Basel Committee｜SCO60 Cryptoasset Exposures｜2024-11-27｜Accessed 2026-07-16](https://www.bis.org/basel_framework/chapter/SCO/60.htm?inforce=20260101&published=20241127&tldate=20381124)
 - [HKMA｜Project Ensemble｜2024-03-07｜Accessed 2026-07-16](https://www.hkma.gov.hk/eng/news-and-media/press-releases/2024/03/20240307-5/)
+- [BBVA Switzerland｜USDC available for clients｜Accessed 2026-07-21](https://www.bbva.ch/en/blog/innovacion/blockchain/usdc-ya-disponible-para-clientes-de-bbva-en-suiza.html)
+- [J.P. Morgan｜JPM Coin deposit token｜Accessed 2026-07-21](https://www.jpmorgan.com/kinexys/digital-payments/jpm-coin)
+- [DBS｜Blockchain and digital asset ecosystem｜Accessed 2026-07-21](https://www.dbs.com/blockchain/index.html)
+- [HKMA｜Stablecoin issuer licences granted to HSBC and Anchorpoint｜2026-04-10｜Accessed 2026-07-21](https://www.hkma.gov.hk/eng/news-and-media/press-releases/2026/04/20260410-4/)
 
-來源存取日期：2026-07-16。
+既有來源存取於 2026-07-16；本次買賣業務新增來源存取於 2026-07-21。
 
 ---
 

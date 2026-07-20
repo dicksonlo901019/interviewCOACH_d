@@ -116,6 +116,37 @@ test("includes the two requested research expansions and GitHub Pages build", as
   assert.match(pagesCoach, /interviewCOACH_d\/assets/);
 });
 
+test("organizes the sidebar by interview flow and integrates bank stablecoin buy/sell research", async () => {
+  const [page, overview, quickIndex, research, handbook, packageJson] = await Promise.all([
+    readFile(new URL("app/page.tsx", root), "utf8"),
+    readFile(new URL("app/quick-overview.tsx", root), "utf8"),
+    readFile(new URL("content/quick-stablecoin-search-index.md", root), "utf8"),
+    readFile(new URL("content/ctbc-deep-research-interview-addendum.md", root), "utf8"),
+    readFile(new URL("content/ctbc-virtual-asset-stablecoin-pm-interview-prep.md", root), "utf8"),
+    readFile(new URL("package.json", root), "utf8"),
+  ]);
+
+  assert.match(packageJson, /"version": "0\.2\.0"/);
+  assert.match(page, /const APP_VERSION = "0\.2\.0"/);
+  for (const phase of ["面試前準備", "開場、自我介紹與動機", "中信、銀行與產業理解", "穩定幣、風控與法規", "產品案例與主管問答", "行為題、表達與避雷", "結尾與查證"]) {
+    assert.match(page, new RegExp(phase));
+  }
+  assert.match(page, /aria-label="搜尋面試目錄"/);
+  assert.match(page, /keywords: "BBVA JPMorgan DBS HSBC Anchorpoint 買入 賣出/);
+  assert.match(overview, /href="#research-2">全球銀行買賣模式/);
+  assert.match(overview, /href="#chapter-8">台灣銀行 MVP/);
+  assert.match(overview, /href="#chapter-25">買入／賣出風控/);
+  assert.match(quickIndex, /銀行穩定幣買入／賣出資料定位/);
+  assert.match(research, /全球案例：先分清楚「第三方穩定幣」與「銀行存款代幣」/);
+  assert.match(research, /JPM Coin（JPMD）/);
+  assert.match(handbook, /買入與賣出的風險不對稱/);
+  assert.match(handbook, /台灣銀行 MVP：先把角色與兩條旅程講清楚/);
+  assert.match(handbook, /Q11\. 如果中信要提供穩定幣買入／賣出/);
+  assert.match(handbook, /為什麼客戶賣出穩定幣通常比買入更難/);
+  assert.match(handbook, /銀行穩定幣買入五步產品流程/);
+  assert.match(handbook, /銀行穩定幣賣出／入金八步產品流程/);
+});
+
 test("server-renders the interview coach route", async () => {
   const response = await render("/coach");
   assert.equal(response.status, 200);
