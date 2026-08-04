@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#071a2d" />
+    <meta
+      name="description"
+      content="Omnichat Senior Product Manager 面試攻略：證據導向的 PM Lead 與 CTO 技術題庫、Agentic PJM workflow。"
+    />
+    <title>Omnichat Senior Product Manager｜面試攻略</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要內容</a>
+
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="面試攻略章節">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">O</div>
+          <div>
+            <p class="brand-name">OMNICHAT</p>
+            <p class="brand-room">INTERVIEW ROOM</p>
+          </div>
+          <button class="icon-button sidebar-close" id="sidebar-close" aria-label="關閉章節選單">×</button>
+        </div>
+
+        <label class="sidebar-search">
+          <span class="visually-hidden">搜尋攻略</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="sidebar-search-input" type="search" placeholder="搜尋答案或關鍵字" autocomplete="off" />
+        </label>
+
+        <nav class="chapter-nav" id="chapter-nav"></nav>
+
+        <div class="sidebar-status">
+          <div><span class="status-dot ready"></span>P0＋P1 本機材料 READY</div>
+          <div><span class="status-dot hold"></span>證據／Production 主張 HOLD</div>
+        </div>
+      </aside>
+
+      <div class="sidebar-scrim" id="sidebar-scrim" hidden></div>
+
+      <main class="main-panel" id="main-content">
+        <header class="topbar">
+          <button class="icon-button menu-button" id="menu-button" aria-label="開啟章節選單">☰</button>
+          <div class="chapter-context">
+            <span id="chapter-index">01 / 12</span>
+            <strong id="chapter-title">15 分鐘速讀</strong>
+          </div>
+          <button class="top-search-trigger" id="top-search-trigger" aria-haspopup="dialog">
+            <span aria-hidden="true">⌕</span>
+            <span>搜尋內容</span>
+            <kbd>⌘ K</kbd>
+          </button>
+          <div class="timer" aria-label="15 分鐘練習計時器">
+            <span class="timer-label">PRACTICE</span>
+            <strong id="timer-display">15:00</strong>
+            <button id="timer-toggle">開始</button>
+            <button id="timer-reset" aria-label="重設計時器">重設</button>
+          </div>
+        </header>
+
+        <div class="mobile-statusbar">
+          <button class="mobile-brand" id="mobile-brand" aria-label="開啟章節選單"><span>O</span> 面試攻略</button>
+          <div><span class="status-dot ready"></span>READY</div>
+          <div><span class="status-dot hold"></span>2 HOLD</div>
+        </div>
+
+        <div class="content-wrap">
+          <section class="chapter-section active" id="section-quick" data-title="15 分鐘速讀"></section>
+          <section class="chapter-section" id="section-role" data-title="職位與缺口"></section>
+          <section class="chapter-section" id="section-domain" data-title="CRM／CDP 基礎"></section>
+          <section class="chapter-section" id="section-mapping" data-title="經驗映射"></section>
+          <section class="chapter-section" id="section-case" data-title="90 天回購 Case"></section>
+          <section class="chapter-section" id="section-stories" data-title="9 個可用故事"></section>
+          <section class="chapter-section" id="section-questions" data-title="30 題 PM Lead 題庫"></section>
+          <section class="chapter-section" id="section-cto-quick" data-title="CTO 15 分鐘速讀"></section>
+          <section class="chapter-section" id="section-agentic-pjm" data-title="Agentic PJM Workflow"></section>
+          <section class="chapter-section" id="section-cto-questions" data-title="36 題 CTO 題庫"></section>
+          <section class="chapter-section" id="section-holds" data-title="兩個 HOLD"></section>
+          <section class="chapter-section" id="section-ask" data-title="反問 PM Lead"></section>
+        </div>
+
+        <footer class="chapter-footer">
+          <button id="previous-chapter">← <span>上一章</span></button>
+          <div id="footer-chapter">15 分鐘速讀</div>
+          <button id="next-chapter"><span>下一章</span> →</button>
+        </footer>
+      </main>
+    </div>
+
+    <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+      <div class="search-dialog-head">
+        <div>
+          <p class="section-label">GLOBAL SEARCH</p>
+          <h2 id="search-title">搜尋整份攻略</h2>
+        </div>
+        <button class="icon-button" id="search-close" aria-label="關閉搜尋">×</button>
+      </div>
+      <label class="dialog-search-input">
+        <span aria-hidden="true">⌕</span>
+        <input id="dialog-search-input" type="search" placeholder="試試：CRM、identity、工程、失敗、回購" autocomplete="off" />
+      </label>
+      <p class="search-hint" id="search-hint">輸入至少兩個字，會搜尋章節、故事、PM Lead 與 CTO 題庫。</p>
+      <div class="search-results" id="search-results"></div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./content-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
