@@ -921,6 +921,20 @@
     });
   }
 
+  const caseOralScript = `這題我會分五步回答。先說明，這是我針對 Omnichat 情境設計的方案，不是我過去曾經上線的 CRM／CDP 案例。
+
+第一步，我會先把問題定義清楚。我們不是單純想提高訊息點擊，而是要確認：對可以合法聯繫的首購顧客，首購後的服務和補貨提醒，能不能真的增加 90 天內的回購，同時不增加退訂、投訴或不必要的折扣成本。
+
+第二步是確認資料是否可信。我會以品牌會員資料作為身份基礎，再連結 LINE Login 或 WhatsApp 的渠道識別；購買與退款紀錄則由既有電商訂單系統和門市 POS 提供。這些資料可以形成統一顧客視圖，但不代表全部塞進同一張表。會員、訂單、渠道狀態各有自己的權威來源；如果身份或聯繫同意有衝突，我會先停止聯繫，而不是猜測顧客是誰。
+
+第三步才是設計顧客旅程。符合資格的首購顧客進入後，先提供使用或售後服務，不急著促銷。到了合理的補貨時間，系統再檢查他是否已經回購、是否仍同意聯繫、商品是否有庫存，以及近期是否收到太多訊息；條件都成立才提醒一次。只要顧客已回購、退訂或有未處理的投訴，就立即退出旅程。
+
+第四步是 AI 的角色。我不會讓 AI 自己決定要聯繫誰。只有顧客主動回覆後，AI 才使用核准的商品與訂單資訊協助回答；它不能改身份、改同意狀態、改價格、發優惠券、下單或退款。遇到資料衝突、低信心、投訴或顧客要求真人時，就連同來源和對話紀錄一起交給客服。
+
+最後是驗證。我會在顧客進入時固定分成實驗組和控制組，比較兩組 90 天回購率的差異，而不是只看開信或點擊；同時觀察毛利、退訂、投訴、錯誤身份、未授權發送和客服負荷。實際基準值、樣本數與測試期間都必須用品牌真實資料計算，不在面試案例裡假設數字。
+
+因此我會先從一個市場、一個補貨品類和一個主要渠道做小規模驗證。只有回購與毛利改善，而且隱私、體驗和客服負荷都在安全範圍內，才逐步擴大。這個方案的核心不是讓 AI 多發訊息，而是先把身份、聯繫權限、退出條件和衡量方式設計正確。`;
+
   const quickScripts = [
     {
       title: '90 秒自我介紹',
@@ -937,7 +951,7 @@
     {
       title: '90 天回購 Case 3 分鐘',
       time: '03:00',
-      answer: `我的決策問題是：對可合法聯繫的首購顧客，服務加補貨提醒是否帶來 90 天增量重購，而且不傷害 Consent、身份、體驗與 margin。\n\n資料上，我會把 CRM member、Shopify／POS order、LINE／WhatsApp identity 與 Consent 放進 Unified Profile，MVP 只用 deterministic matching；身份或 Consent 衝突就 suppression。Journey 在首購時固定分 treatment／control，先做服務，補貨窗口前再檢查資格，只發一次提醒，回購、退訂或投訴立即退出。\n\nAI 只在顧客回覆後進場，只讀核准資料，不改 Profile、Consent、價格、訂單或 Journey；低信心、投訴或 timeout 交真人。Primary metric 是 ITT treatment-control 的 90-day repeat-purchase difference，Secondary 看 incremental contribution margin，並以 opt-out、mismerge、unauthorized send、AI error、latency、cost 與 CS backlog 做 guardrails。Baseline、MDE、sample、duration 都要依真實資料決定，目前是 TBD。`,
+      answer: caseOralScript,
       boundary: '這是面試 Case，不是曾在 Omnichat 或 CRM production 上線的成果；沒有 21% uplift 或任何既有實驗數字。',
     },
   ];
@@ -1108,7 +1122,7 @@
   function renderCase() {
     const steps = [
       ['Decision', '對可合法聯繫的首購顧客，服務＋補貨提醒是否帶來 90 天增量重購，且不傷害 Consent、身份、體驗與 margin。', 'Case 假設；不是已上線成效。'],
-      ['Unified Profile', 'CRM member、Shopify／POS order、LINE／WhatsApp identity、Consent；MVP 採 deterministic matching，衝突時 suppression。', '實際客戶資料模型與 Source of Truth 為 Unknown。'],
+      ['Unified Profile', '會員主檔是身份基礎；LINE Login 與 WhatsApp 是渠道識別；電商訂單系統與 POS 提供交易資料；再加上 Consent。MVP 採 deterministic matching，衝突時 suppression。', '系統分層是 Case 設計；實際客戶資料模型與 Source of Truth 為 Unknown。'],
       ['Segment', '首購、可聯繫、身份與 Consent 有效、未退款／取消；entry 時固定 treatment／control。', '實際 eligibility rule 需由資料與 policy owner 決定。'],
       ['Journey', '先服務，再於補貨窗口前 action-time recheck；一次提醒；回購、退訂、投訴或不再適用即 exit。', '不先假設「發優惠就會回購」。'],
       ['AI Boundary', '只在顧客回覆後進場，只讀核准資料；不改 Profile、Consent、價格、訂單或 Journey；低信心、投訴、timeout 交真人。', '不宣稱 AI model 或 production agent ownership。'],
@@ -1121,9 +1135,15 @@
       <div class="case-steps">
         ${steps.map(([title, copy, boundary]) => `<div class="case-step" data-search="${escapeHtml(title)} ${escapeHtml(copy)}"><div><h3>${title}</h3><p>${copy}</p><p class="boundary-detail">${boundary}</p></div></div>`).join('')}
       </div>
-      <div class="callout"><p><strong>收尾句：</strong>重點不是讓 AI 多發訊息，而是用 Social CDP 建立正確身份、Consent、狀態與可判定的 Journey，再把 AI 放在有權限、有來源、可轉真人的對話協助位置。</p></div>
+      <div class="section-heading-row"><h2>可直接口說｜3 分鐘完整版本</h2><p>先說這是假設案例，再依決策、資料、Journey、AI、衡量與上線順序回答。</p></div>
+      <div class="callout answer-script" data-search="${escapeHtml(caseOralScript)}">
+        ${caseOralScript.split('\n\n').map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}
+        <div class="boundary-detail evidence-note"><strong>證據邊界：</strong>這是 demonstrated product-thinking workflow，不是你曾完成 Omnichat、CRM／CDP、特定電商或 POS 串接，也不是企業級 AI production rollout 的證明。</div>
+      </div>
+      <div class="callout"><p><strong>收尾句：</strong>重點不是讓 AI 多發訊息，而是先確認顧客是誰、是否可以聯繫、目前處在旅程的哪個狀態，以及什麼情況必須停止；AI 只在有權限、有可靠來源且可以轉真人的情況下協助對話。</p></div>
       <div class="answer-actions">
         <button class="primary-button start-script" data-seconds="180">開始 03:00 Case 練習</button>
+        <button class="copy-button" data-copy="${escapeHtml(caseOralScript)}">複製完整口述稿</button>
         <button class="practice-check" data-progress="case-main">標記已練</button>
       </div>
       ${sourceLinks}
