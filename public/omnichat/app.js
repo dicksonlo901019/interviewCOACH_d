@@ -29,6 +29,15 @@
     .replaceAll("'", '&#039;');
 
   const glossaryEnglishNames = new Map([
+    ['AI 代理人', 'AI Agent'],
+    ['技能規範', 'Skill'],
+    ['任務協調器', 'Orchestrator'],
+    ['上下文組裝', 'Context Assembly'],
+    ['角色登錄表', 'Agent Registry'],
+    ['任務契約', 'Task Envelope'],
+    ['交接契約', 'Handoff Contract'],
+    ['產物清單', 'Artifact Manifest'],
+    ['獨立審查者', 'Independent Reviewer'],
     ['狀態機', 'State Machine'],
     ['冪等鍵', 'Idempotency Key'],
     ['受控重播', 'Controlled Replay'],
@@ -82,6 +91,15 @@
   ]);
 
   const glossary = [
+    ['AI 代理人', '以 LLM 為推理核心，由執行環境組裝上下文、選擇工具、執行步驟並根據結果繼續或停止的任務角色。'],
+    ['技能規範', '提供給 Agent 的可重用工作說明，定義步驟、必要輸入、輸出格式、品質條件與禁止事項；它本身不會主動呼叫 LLM。'],
+    ['任務協調器', '判斷任務處於哪個階段，選擇對應 Agent 與 Skill，並根據 gate 結果決定下一步。'],
+    ['上下文組裝', '把使用者需求、規則、Skill、已核准產物與權限邊界整理成 LLM 當次可使用的輸入。'],
+    ['角色登錄表', '記錄可用 Agent、角色責任、觸發條件、輸入輸出與禁止事項的結構化登錄表。'],
+    ['任務契約', '每次任務的結構化說明，包含目標、來源、限制、交付物、驗收條件、未知與停止條件。'],
+    ['交接契約', '定義角色之間交付時必須提供的產物、狀態、證據、責任與完成條件。'],
+    ['產物清單', '登錄每個產物的位置、版本、來源、狀態、負責角色與審查關係，供後續追溯。'],
+    ['獨立審查者', '使用與執行者分離的上下文，依原始需求、驗收條件、證據與實際產物重新判定通過或退回。'],
     ['狀態機', '用明確狀態、允許的轉移與例外規則描述物件生命週期，避免任意跳轉。'],
     ['冪等鍵', '用來辨識同一操作的唯一鍵，讓重複請求不會重複產生副作用。'],
     ['受控重播', '在先確認範圍、副作用與去重規則後，受控地重新處理失敗或漏掉的事件。'],
@@ -1208,6 +1226,7 @@
 
   function renderAgenticPjm() {
     const ticketFields = ['Title', 'Source@version', 'Problem／Context', 'Scope＋Non-goal', 'Given／When／Then AC', 'Dependencies', 'Risk', 'Role owner', 'UNESTIMATED', 'DoR／DoD', 'Release／Rollback', 'Trace'];
+    const agentSkillOral = '我目前對 AI 代理人、技能規範和 LLM 的實作理解，主要來自產品開發工作流程。AI 代理人是負責執行任務的角色，技能規範是它的工作說明，包含步驟、輸入輸出、品質條件與禁止事項。技能規範不會自己呼叫 LLM，而是由執行環境把使用者需求、技能規範和已核准產物組成上下文，再交給 LLM 產生結果。我最早在奇換橘子使用 Visual Studio Code 搭配 Gemini API，把產品流程拆成產品經理、UI／UX 與前端工程三種角色，以 PRD、線框稿與互動原型作為跨階段產物，並經人工確認後才能交接。後來我把這個方式重構成 Codex Agentic Workflow，加入角色登錄表、任務契約、交接契約、產物清單、狀態機與獨立審查者。我的重點不是讓代理人完全自主，而是讓它在清楚的資料、角色、狀態和人工關卡中工作。';
     $('#section-agentic-pjm').innerHTML = `
       ${chapterIntro('AGENTIC WORKFLOW × PJM', 'PRD 到 Scrum Board', 'Agent 是受控 delivery copilot：只讀 approved artifacts、預設產 draft；不決定 scope、owner、estimate、architecture 或 release。')}
       ${renderBoundarySwitch()}
@@ -1227,7 +1246,21 @@
         ${domainCard('Version Drift', '比對source hash；受影響票標STALE_REVIEW_REQUIRED，不覆寫in-flight work；PM重決scope、工程重估、QA更新coverage。', ['semantic diff', 'human decision', 're-approval'])}
         ${domainCard('Permission／PII', 'read／draft／write／transition／assign／release分權；tenant隔離、data minimization、high-impact human approval與audit。', ['least privilege', 'PII minimization', 'audit'])}
       </div>
-      <div class="split-panel"><div><p class="section-label">DEMONSTRATED</p><h3>可直接證明</h3><ul><li>PM／UIUX／FE role Skills與artifact folders。</li><li>跨階段user approval gate。</li><li>個人handoff／state／artifact／independent reviewer correction loop。</li></ul></div><div class="risk"><p class="section-label">PROPOSED／HOLD</p><h3>不可說成已落地</h3><ul><li>Board API write-back與enterprise RBAC／PII。</li><li>production drift alert、observability與組織 rollout。</li><li>cycle-time、quality、adoption、ROI改善數字。</li></ul></div></div>
+      <div class="section-heading-row"><h2>AI 代理人、技能規範與 LLM 怎麼協作</h2><p>先說清楚角色，再用你實際建立的產品工作流程說明。</p></div>
+      <div class="flow" aria-label="AI 代理人、技能規範與 LLM 協作流程">
+        ${flowStep('使用者需求', '目標／限制／驗收')}
+        <span class="flow-arrow">→</span>${flowStep('任務協調器', '判斷階段與角色')}
+        <span class="flow-arrow">→</span>${flowStep('AI 代理人＋技能規範', '上下文組裝／工具邊界')}
+        <span class="flow-arrow">→</span>${flowStep('LLM', '理解／推理／產生')}
+        <span class="flow-arrow">→</span>${flowStep('驗證與審查', '實際產物／證據／gate')}
+        <span class="flow-arrow">→</span>${flowStep('狀態與交接', '登錄／更新／下一角色')}
+      </div>
+      <div class="callout" data-search="AI Agent Skill LLM Gemini Codex 口述">
+        <p><strong>60–90 秒口述：</strong>${escapeHtml(agentSkillOral)}</p>
+        <div class="question-actions"><button class="copy-button" data-copy="${escapeHtml(agentSkillOral)}">複製口述回答</button></div>
+        <div class="boundary-detail evidence-note"><strong>證據邊界：</strong>Gemini API 為使用者確認，repo 無 runtime log；本案例不使用 RAG implementation 作為經驗錨點，也不主張自建 LLM runtime、Agent 間自主網路通訊或企業級 rollout。</div>
+      </div>
+      <div class="split-panel"><div><p class="section-label">DEMONSTRATED</p><h3>可直接證明</h3><ul><li>產品經理／UIUX／前端角色型技能規範與固定產物資料夾。</li><li>跨階段使用者核准關卡。</li><li>個人延伸的角色登錄表、交接契約、狀態、產物清單與獨立審查修正循環。</li></ul></div><div class="risk"><p class="section-label">PROPOSED／HOLD</p><h3>不可說成已落地</h3><ul><li>Scrum Board API 寫回與企業級 RBAC／PII 治理。</li><li>正式環境的版本漂移告警、可觀測性與組織全面導入。</li><li>週期時間、品質、採用率或 ROI 改善數字。</li></ul></div></div>
       ${sourceLinks}
     `;
   }
