@@ -939,13 +939,13 @@
     {
       title: '90 秒自我介紹',
       time: '01:30',
-      answer: `我有約十年產品管理經驗，近年主要做 Web3 平台、CEX、法幣／C2C 與 AI 輔助工作流。最能代表我 Senior scope 的經歷，是帶領三位 PM、兩位 Design，和工程及跨區產品團隊，在四個月內完成 0-to-1 CEX 平台交付。\n\n我的核心能力是把複雜平台問題變成可交付決策。第三方 provider 案例中，我負責資格、handoff、交易狀態與營運可見性；Grid 與後台則處理 lifecycle、風險與多層審批。我的 ownership 是產品架構、規則與跨團隊對齊，不是底層工程實作。\n\n我沒有直接 CRM／CDP 經驗，這個 Gap 是真的。我已能白板說明 Customer 360、Identity、Consent 與 Journey，也完成 90 天增量回購 Case。若加入 Omnichat，我會先理解實際資料模型、客戶問題與指標，從範圍清楚的 module 交付，不把相鄰經驗改名。`,
+      answer: `我有約十年產品管理經驗，近幾年主要負責 Web3 平台、中心化交易所、法幣交易流程和 AI 輔助工作流程。最能代表我工作範圍的經驗，是帶領三位 PM 和兩位設計師，和工程及跨區團隊在四個月內完成一個從零開始的 CEX 平台交付。\n\n我擅長的是把複雜平台問題整理成團隊可以執行的產品決策。例如第三方服務整合，我負責釐清誰可以使用、跳轉前後的狀態、失敗時顧客看到什麼，以及營運人員如何處理；在 Grid 和後台產品中，我也處理生命週期、風險提示和多層審批。我的責任是產品架構、規則與跨團隊對齊，底層技術實作由工程負責。\n\n我沒有直接 CRM／CDP 任職經驗，這個缺口我會直接說明。但我已能把過去的第三方整合、狀態、權限和治理經驗，對應到 Customer 360、身份、聯繫同意和顧客旅程。若加入 Omnichat，我會先理解真實資料模型、客戶問題和成功指標，再從邊界清楚的模組開始交付。`,
       boundary: '可說：約十年 PM、3 PM＋2 Design、四個月 0-to-1 CEX。不可升級成獨立打造、工程實作或 CRM production ownership。',
     },
     {
       title: 'CRM Gap 45 秒',
       time: '00:45',
-      answer: `這個 Gap 是真的，我沒有直接 CRM／CDP 經驗，也不會把 CEX 或 KYC 改稱 CRM。我能轉移的是第三方整合、多狀態、Source of Truth、權限與營運恢復能力；目前也已能白板說明 Customer 360、Identity、Consent、Segment 與 Journey。加入後先對齊真實資料模型、客戶問題與指標，再從邊界清楚的問題交付。`,
+      answer: `我沒有直接 CRM／CDP 任職經驗，這個缺口是真的，我也不會把交易所或 KYC 經驗換個名字說成 CRM。我能直接轉移的是第三方整合、多狀態、資料責任、權限審批和營運修復；目前也已能白板說明 Customer 360、身份解析、聯繫同意、分群和顧客旅程。加入後我會先對齊真實資料模型、客戶問題和指標，再從範圍清楚的問題開始交付。`,
       boundary: '領域理解是目前準備成果，不是過去 production ownership；KYC eligibility 不等於 Identity Resolution。',
     },
     {
@@ -1045,13 +1045,13 @@
         </div>
       </div>
 
-      <div class="callout"><p><strong>一句定位：</strong>我不是 direct CRM candidate；我是有約十年經驗、能把第三方整合、多狀態、權限與高風險營運需求拆成可交付平台規則，也清楚知道 CRM Gap 與補強方法的 Senior PM。</p></div>
+      <div class="callout"><p><strong>一句定位：</strong>我不是具備直接 CRM 經驗的候選人；我是有約十年經驗、能把第三方整合、多狀態、權限與高風險營運需求拆成可交付平台規則，也清楚知道 CRM 缺口與補強方法的 Senior PM。</p></div>
 
       <div class="section-heading-row"><h2>前 90 天：先降低風險，再證明交付</h2></div>
       <div class="roadmap">
-        <div class="roadmap-step"><span>DAY 1–30</span><h3>建立正確問題地圖</h3><p>確認 module、decision boundary、success metric；走過產品與真實客戶／整合案例，畫出資料流、Source of Truth、failure 與 owner。</p></div>
-        <div class="roadmap-step"><span>DAY 31–60</span><h3>形成一個可驗證問題</h3><p>選邊界清楚的 integration、journey、admin workflow 或 data-quality 問題，建立 baseline、MVP、metrics、non-goal。</p></div>
-        <div class="roadmap-step"><span>DAY 61–90</span><h3>完成受控驗證</h3><p>讓一個 MVP／experiment 完成驗證，或進入具 owner、驗收與 release gate 的開發階段；不承諾重構 CDP。</p></div>
+        <div class="roadmap-step"><span>第 1–30 天</span><h3>建立正確問題地圖</h3><p>確認模組、決策邊界和成功指標；走過產品與真實客戶／整合案例，畫出資料流、權威來源、失敗情況和負責人。</p></div>
+        <div class="roadmap-step"><span>第 31–60 天</span><h3>形成一個可驗證問題</h3><p>選擇邊界清楚的整合、顧客旅程、後台流程或資料品質問題，建立基準、MVP、指標和不做範圍。</p></div>
+        <div class="roadmap-step"><span>第 61–90 天</span><h3>完成受控驗證</h3><p>讓一個 MVP 或實驗完成驗證，或進入具備負責人、驗收與上線門檻的開發階段；不承諾重構 CDP。</p></div>
       </div>
       ${sourceLinks}
     `;
@@ -1059,39 +1059,39 @@
 
   function renderDomain() {
     $('#section-domain').innerHTML = `
-      ${chapterIntro('DOMAIN BRIEF', 'CRM／CDP 基礎', '這一章是面試用的白板語言：能說清楚 Customer 360、Identity、Consent、Segment、Journey 與整合可靠性，但不宣稱過去有 production ownership。')}
+      ${chapterIntro('DOMAIN BRIEF', 'CRM／CDP 基礎', '這一章是面試用的白板語言：能說清楚 Customer 360、身份、聯繫同意、分群、顧客旅程與整合可靠性，但不宣稱過去負責過正式環境。')}
       <table class="concept-table">
         <thead><tr><th>概念</th><th>先用白話說</th><th>不可混淆</th></tr></thead>
         <tbody>
           <tr><td>CRM</td><td>管理顧客關係、互動與營運流程的系統。</td><td>不是自動等於跨來源統一資料。</td></tr>
-          <tr><td>CDP</td><td>把多來源顧客資料整理成可治理、可使用的 profile 與 audience。</td><td>不是把所有資料塞進一張大表。</td></tr>
-          <tr><td>Customer 360</td><td>有來源、時間、權限與衝突規則的顧客視圖。</td><td>不是「欄位越多越完整」。</td></tr>
-          <tr><td>Identity Resolution</td><td>判斷不同 identifier 是否屬於同一位顧客，並保留證據與可逆性。</td><td>不等於 KYC，也不能看到相同 email 就盲目 merge。</td></tr>
-          <tr><td>Segment</td><td>依條件決定誰在當下符合資格。</td><td>Dynamic segment 需要隨資料變動重新計算。</td></tr>
-          <tr><td>Journey</td><td>依 entry、state、rule、action、exit 與 exception 編排顧客互動。</td><td>不是排好一串訊息就算完成。</td></tr>
+          <tr><td>CDP</td><td>把多來源顧客資料整理成可治理、可使用的顧客檔案與受眾。</td><td>不是把所有資料塞進一張大表。</td></tr>
+          <tr><td>顧客 360</td><td>有來源、時間、權限與衝突規則的顧客視圖。</td><td>不是「欄位越多越完整」。</td></tr>
+          <tr><td>身份解析</td><td>判斷不同身份識別是否屬於同一位顧客，並保留證據與可逆性。</td><td>不等於 KYC，也不能看到相同信箱就直接合併。</td></tr>
+          <tr><td>分群</td><td>依條件決定誰在當下符合資格。</td><td>動態分群需要隨資料變動重新計算。</td></tr>
+          <tr><td>顧客旅程</td><td>依進入條件、狀態、規則、動作、退出和例外，編排顧客互動。</td><td>不是排好一串訊息就算完成。</td></tr>
         </tbody>
       </table>
 
-      <div class="section-heading-row"><h2>白板主幹</h2><p>每個物件都要問：誰是 owner、誰是 Source of Truth、衝突怎麼辦。</p></div>
+      <div class="section-heading-row"><h2>白板主幹</h2><p>每個資料物件都要問：由誰負責、以哪個系統為準、發生衝突怎麼辦。</p></div>
       <div class="flow" aria-label="CRM CDP 資料與旅程流程">
-        ${flowStep('來源', 'CRM／Shopify／POS／Channel')}
+        ${flowStep('來源', 'CRM／電商／POS／渠道')}
         <span class="flow-arrow">→</span>
-        ${flowStep('Identifier', 'member／email／phone／LINE ID')}
+        ${flowStep('身份識別', '會員／信箱／電話／LINE ID')}
         <span class="flow-arrow">→</span>
-        ${flowStep('Profile', 'lineage／confidence／updated time')}
+        ${flowStep('顧客檔案', '來源／信心／更新時間')}
         <span class="flow-arrow">→</span>
-        ${flowStep('Consent', 'purpose × channel × market')}
+        ${flowStep('聯繫同意', '目的 × 渠道 × 市場')}
         <span class="flow-arrow">→</span>
-        ${flowStep('Segment', 'dynamic eligibility')}
+        ${flowStep('分群', '動態資格')}
         <span class="flow-arrow">→</span>
-        ${flowStep('Journey', 'state／exit／guardrail')}
+        ${flowStep('顧客旅程', '狀態／退出／風險指標')}
       </div>
 
       <div class="content-grid">
-        ${domainCard('Identity', 'MVP 先用強且可驗證的 deterministic signal；merge 要能 audit，也要能 split／remediate。Consent 不因 merge 自動放寬。', ['normalize', 'conflict check', 'reversible'])}
-        ${domainCard('Source of Truth', '不要讓 last write wins 自動成為規則。逐欄定 authority、freshness 與 conflict state；高風險 action 無法裁決時先 suppression。', ['field-level authority', 'lineage', 'reconciliation'])}
-        ${domainCard('Integration Reliability', '事件要有 ID、entity、version／occurred_at 與 schema。PM 的責任是定 customer-visible result、operator queue、replay 副作用與 recovery boundary。', ['idempotency', 'retry／DLQ', 'controlled replay'])}
-        ${domainCard('Measurement', '用 stable control 與 ITT 判斷增量；click、open、attributed revenue 是診斷訊號，不是因果證據。每個 metric 要有分母、窗口、去重與 owner。', ['incrementality', 'guardrails', 'operational definition'])}
+        ${domainCard('身份解析', 'MVP 先用強且可驗證的確定性證據；合併要留下稽核，也要能拆分和修復。聯繫同意不因合併自動放寬。', ['格式統一', '衝突檢查', '可逆'])}
+        ${domainCard('資料權威來源', '不要讓最後寫入自動成為規則。每個欄位都要定義權威來源、更新時間和衝突狀態；高風險操作無法裁決時先停止。', ['逐欄指定權威', '保留來源', '對帳'])}
+        ${domainCard('整合可靠性', '事件要有唯一識別、對象、版本、發生時間和格式。PM 要定義顧客看到的結果、營運處理入口、重播副作用和修復邊界。', ['避免重複執行', '重試／失敗佇列', '受控重播'])}
+        ${domainCard('衡量方式', '用固定控制組和原始分組判斷增量；點擊、開信和歸因收入只能幫助診斷，不能證明因果。每個指標都要定義分母、窗口、去重和負責人。', ['增量效果', '風險指標', '操作定義'])}
       </div>
       <div class="boundary-detail hold-banner"><span>!</span><div>API、Webhook、retry、DLQ 可用來回答現在的 domain 理解；描述過往經歷時，不聲稱親自做過工程實作。</div></div>
       ${sourceLinks}
@@ -1216,29 +1216,29 @@
 
   function renderCtoQuick() {
     const anchors = [
-      ['System／Data', '來源 → ingestion → identity／consent → profile／event → segment／journey → channel／Agent → feedback。橫向放 RBAC、PII、audit、observability、reconciliation、rollback。', 'Reference architecture；Omnichat stack／scale／SLO 是 UNKNOWN。'],
-      ['Integration', 'Event contract要有tenant、event ID、entity、occurred_at、version、schema；idempotent action、bounded retry、DLQ、API reconciliation與operator recovery。', '過往未證 production retry／DLQ implementation ownership。'],
-      ['Agent', 'Trigger → Context → Policy → Planner／Router → Tool → Validation → Human Gate／Handoff → Action → Trace／Eval。', '已證role／artifact／gate workflow；production runtime是PROPOSED。'],
-      ['PJM', 'Approved PRD → contract check → vertical WBS → ticket draft → PM／Design／Eng／QA review → Board → staged release／rollback。', 'Board write-back與enterprise rollout不是既有成果。'],
+      ['系統與資料', '我會從資料來源開始，依序畫出資料驗證、身份與聯繫同意、顧客檔案與事件、分群與旅程、渠道或 Agent，最後讓結果回流。整張圖再補上權限、個資、稽核、監控、對帳和回復。', '這是參考架構；Omnichat 的實際系統、規模與服務目標仍待確認。'],
+      ['整合可靠性', '事件要帶租戶、唯一識別、對象、發生時間、版本和格式。重複事件不能重做，暫時錯誤才有限次重試，無法處理的事件要隔離，再用 API 或全量同步補漏，並提供營運修復入口。', '過往經驗不包含正式環境的重試或失敗佇列工程實作。'],
+      ['受控 Agent', '先確認觸發條件和可使用資料，再檢查政策與權限；Agent 提出計畫，工具執行前後都要驗證，高影響或低信心時交由人核准，最後留下紀錄並持續評估。', '已證的是角色、產物和人工關卡流程；正式環境執行架構仍是建議方案。'],
+      ['產品交付管理', '先固定核准的 PRD，再檢查缺口、垂直拆分工作、產生票券草稿，經 PM、設計、工程和 QA 審查後才寫入 Board；發布要分階段並預先定義回復方式。', 'Board 寫回和企業全面導入不是既有成果。'],
     ];
     $('#section-cto-quick').innerHTML = `
-      ${chapterIntro('QUICK REVIEW · P1 CTO', 'CTO 15 分鐘速讀', '先守住 ownership 與 UNKNOWN，再用 data、state、failure、permission、observability 與 rollback 回答。')}
+      ${chapterIntro('QUICK REVIEW · P1 CTO', 'CTO 15 分鐘速讀', '先守住本人責任與待確認事項，再用資料、狀態、失敗、權限、監控和回復順序回答。')}
       ${renderBoundarySwitch()}
       <div class="status-strip" aria-label="P1 材料狀態">
-        <div class="status-cell ready"><span class="status-icon">✓</span><div class="status-copy">P1 本機材料：<strong>READY FOR REVIEW</strong></div></div>
-        <div class="status-cell hold"><span class="status-icon">!</span><div class="status-copy">Production／enterprise claims：<strong>HOLD</strong></div></div>
+        <div class="status-cell ready"><span class="status-icon">✓</span><div class="status-copy">P1 本機材料：<strong>可供複習</strong></div></div>
+        <div class="status-cell hold"><span class="status-icon">!</span><div class="status-copy">正式環境／企業主張：<strong>HOLD</strong></div></div>
       </div>
       <div class="content-grid">
         ${anchors.map(([title, copy, boundary]) => domainCard(title, `${copy}<span class="boundary-detail evidence-note">${boundary}</span>`, ['decision', 'ownership', 'recovery'])).join('')}
       </div>
-      <div class="callout"><p><strong>固定回答語法：</strong>Decision → Objects／Source of Truth → State／Failure → Permission／PII → Observability／Recovery → Metrics／Trade-off → Owner／Unknown。</p></div>
+      <div class="callout"><p><strong>固定回答順序：</strong>先說決策，再說資料物件與權威來源、狀態與失敗、權限與個資、監控與修復、衡量與取捨，最後交代負責人與待確認事項。</p></div>
       <div class="section-heading-row"><h2>真實經驗錨點</h2></div>
-      <table class="concept-table"><thead><tr><th>題型</th><th>可用 Direct Evidence</th><th>不可升級</th></tr></thead><tbody>
-        <tr><td>Architecture／Priority</td><td>3 PM＋2 Design；四個月 0→1 CEX；account／wallet／approval／risk／ops</td><td>獨立 engineering build、交易成果</td></tr>
-        <tr><td>Integration</td><td>BANXA／法幣 eligibility、KYC handoff、order／payment／refund／cancel state</td><td>API／queue／支付清算 implementation、incident</td></tr>
-        <tr><td>State／Trade-off</td><td>Grid lifecycle、margin／liquidation risk、manual termination、admin visibility</td><td>quant code、volume／retention lift</td></tr>
-        <tr><td>Governance</td><td>KYC product flow、1–6 層 approval／risk requirements</td><td>Consent platform、SDK、security architecture</td></tr>
-        <tr><td>Agent Workflow</td><td>角色型 Skills、artifact folders、user gate；個人 handoff／state／reviewer</td><td>enterprise rollout、adoption、ROI、days-to-hours</td></tr>
+      <table class="concept-table"><thead><tr><th>題型</th><th>可用直接證據</th><th>不可升級</th></tr></thead><tbody>
+        <tr><td>架構與優先順序</td><td>帶領三位 PM 和兩位設計師；四個月從零建立 CEX；涵蓋帳戶、錢包、審批、風險和營運</td><td>獨立完成工程建置或未證交易成果</td></tr>
+        <tr><td>第三方整合</td><td>BANXA／法幣資格、KYC 交接，以及訂單、付款、退款和取消狀態</td><td>API、佇列、支付清算實作或事故處理</td></tr>
+        <tr><td>狀態與技術取捨</td><td>Grid 生命週期、保證金與強平風險、手動終止和後台可見性</td><td>量化程式或未證交易量與留存成效</td></tr>
+        <tr><td>治理</td><td>KYC 產品流程和一到六層審批與風險需求</td><td>聯繫同意平台、SDK 或安全架構</td></tr>
+        <tr><td>Agent 工作流程</td><td>角色型 Skill、固定產物、人工確認，以及個人延伸的交接、狀態和獨立審查</td><td>企業導入、採用率、投資報酬或效率數字</td></tr>
       </tbody></table>
       ${sourceLinks}
     `;
@@ -1246,7 +1246,7 @@
 
   function renderAgenticPjm() {
     const ticketFields = ['Title', 'Source@version', 'Problem／Context', 'Scope＋Non-goal', 'Given／When／Then AC', 'Dependencies', 'Risk', 'Role owner', 'UNESTIMATED', 'DoR／DoD', 'Release／Rollback', 'Trace'];
-    const agentSkillOral = '我目前對 AI 代理人、技能規範和 LLM 的實作理解，主要來自產品開發工作流程。AI 代理人是負責執行任務的角色，技能規範是它的工作說明，包含步驟、輸入輸出、品質條件與禁止事項。技能規範不會自己呼叫 LLM，而是由執行環境把使用者需求、技能規範和已核准產物組成上下文，再交給 LLM 產生結果。我最早在奇換橘子使用 Visual Studio Code 搭配 Gemini API，把產品流程拆成產品經理、UI／UX 與前端工程三種角色，以 PRD、線框稿與互動原型作為跨階段產物，並經人工確認後才能交接。後來我把這個方式重構成 Codex Agentic Workflow，加入角色登錄表、任務契約、交接契約、產物清單、狀態機與獨立審查者。我的重點不是讓代理人完全自主，而是讓它在清楚的資料、角色、狀態和人工關卡中工作。';
+    const agentSkillOral = '我會用「角色、工作說明、執行環境」三層來解釋。Agent 是負責完成任務的角色；Skill 是給它的工作說明，定義步驟、輸入輸出、品質條件和禁止事項；真正把使用者需求、Skill 與核准資料組成上下文並交給 LLM 的，是執行環境，不是 Skill 自己。\n\n我最早在奇換橘子用 Visual Studio Code 搭配 Gemini API，把產品開發拆成產品經理、UI／UX 和前端工程三個角色，以 PRD、線框稿和互動原型作為交接產物，每一階段都需要人工確認。後來我把同一思路重構成 Codex Agentic Workflow，補上角色登錄、任務契約、交接契約、產物版本、狀態和獨立審查。\n\n所以我的重點不是讓 Agent 完全自主，而是讓它知道能讀什麼、要交付什麼、何時必須停止，以及由誰核准。這證明的是我已設計並在本機驗證工作流程，不代表企業級正式導入或量化成效。';
     $('#section-agentic-pjm').innerHTML = `
       ${chapterIntro('AGENTIC WORKFLOW × PJM', 'PRD 到 Scrum Board', 'Agent 是受控 delivery copilot：只讀 approved artifacts、預設產 draft；不決定 scope、owner、estimate、architecture 或 release。')}
       ${renderBoundarySwitch()}
@@ -1276,7 +1276,7 @@
         <span class="flow-arrow">→</span>${flowStep('狀態與交接', '登錄／更新／下一角色')}
       </div>
       <div class="callout" data-search="AI Agent Skill LLM Gemini Codex 口述">
-        <p><strong>60–90 秒口述：</strong>${escapeHtml(agentSkillOral)}</p>
+        <div class="answer-script"><strong>60–90 秒口述：</strong>${agentSkillOral.split('\n\n').map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}</div>
         <div class="question-actions"><button class="copy-button" data-copy="${escapeHtml(agentSkillOral)}">複製口述回答</button></div>
         <div class="boundary-detail evidence-note"><strong>證據邊界：</strong>Gemini API 為使用者確認，repo 無 runtime log；本案例不使用 RAG implementation 作為經驗錨點，也不主張自建 LLM runtime、Agent 間自主網路通訊或企業級 rollout。</div>
       </div>
@@ -1338,20 +1338,20 @@
 
   function renderAsk() {
     const asks = [
-      '這個新增 Headcount 前六個月最希望改善的客戶或產品問題是什麼？',
-      '六位 PM 目前如何依 product line、customer segment 或 shared platform capability 分工？',
-      'CRM／CDP integration 現在最常卡在資料品質、identity／Consent、客戶客製，還是第三方限制？',
-      'Senior PM 對 roadmap、共用 data model 與客戶承諾的 decision boundary 到哪裡？',
-      '這個角色前三到六個月的成功，主要看使用、客戶 outcome、交付速度、整合穩定性，還是商業指標？',
+      '這個新增職缺前六個月最希望改善的客戶或產品問題是什麼？',
+      '六位 PM 目前是依產品線、客戶類型，還是共用平台能力分工？',
+      'CRM／CDP 整合現在最常卡在資料品質、身份與聯繫同意、客戶客製，還是第三方限制？',
+      'Senior PM 對 Roadmap、共用資料模型和客戶承諾，可以獨立決定到什麼程度？',
+      '這個角色前三到六個月的成功，主要看產品使用、客戶成果、交付速度、整合穩定性，還是商業指標？',
     ];
     $('#section-ask').innerHTML = `
-      ${chapterIntro('YOUR QUESTIONS', '反問 PM Lead', '不要一次問完五題。依前面的對話選兩題，優先確認第一個問題、decision boundary 與成功標準。')}
+      ${chapterIntro('YOUR QUESTIONS', '反問 PM Lead', '不要一次問完五題。依前面的對話選兩題，優先確認第一個問題、決策邊界與成功標準。')}
       <div class="ask-list">
         ${asks.map((ask, index) => `<div class="ask-item" data-search="${escapeHtml(ask)}"><span class="ask-number">0${index + 1}</span><p>${ask}</p><button class="copy-button" data-copy="${escapeHtml(ask)}">複製</button></div>`).join('')}
       </div>
       <div class="section-heading-row"><h2>面試後立即記錄</h2></div>
       <div class="content-grid">
-        ${['真正負責的 module／customer segment', 'PM Lead 說的 success metric', '六位 PM 實際分工與 shared owner', '第一個問題／風險', '下一關需補的技術證據', '我講過但需要修正的 claim'].map((item) => `<label class="editorial-card"><strong>${item}</strong><textarea class="interview-note" data-note="${escapeHtml(item)}" rows="3" placeholder="面試後記在這裡…"></textarea></label>`).join('')}
+        ${['真正負責的模組／客戶類型', 'PM Lead 說的成功指標', '六位 PM 的實際分工與共用負責人', '第一個問題／風險', '下一關需補的技術證據', '我講過但需要修正的主張'].map((item) => `<label class="editorial-card"><strong>${item}</strong><textarea class="interview-note" data-note="${escapeHtml(item)}" rows="3" placeholder="面試後記在這裡…"></textarea></label>`).join('')}
       </div>
       ${sourceLinks}
     `;
