@@ -1417,12 +1417,58 @@
   }
 
   function openSidebar() {
+    if (window.matchMedia('(min-width: 821px)').matches) {
+      setDesktopSidebarCollapsed(false);
+      return;
+    }
     document.body.classList.add('sidebar-open');
     $('#sidebar-scrim').hidden = false;
+    $('#menu-button').setAttribute('aria-expanded', 'true');
+    $('#menu-button').setAttribute('aria-label', '關閉章節選單');
+    $('#menu-button').title = '關閉章節選單';
   }
   function closeSidebar() {
+    if (window.matchMedia('(min-width: 821px)').matches) return;
     document.body.classList.remove('sidebar-open');
     $('#sidebar-scrim').hidden = true;
+    $('#menu-button').setAttribute('aria-expanded', 'false');
+    $('#menu-button').setAttribute('aria-label', '開啟章節選單');
+    $('#menu-button').title = '開啟章節選單';
+  }
+
+  function setDesktopSidebarCollapsed(collapsed, persist = true) {
+    document.body.classList.toggle('sidebar-collapsed', collapsed);
+    const menuButton = $('#menu-button');
+    const label = collapsed ? '展開左側選單' : '收合左側選單';
+    menuButton.setAttribute('aria-expanded', String(!collapsed));
+    menuButton.setAttribute('aria-label', label);
+    menuButton.title = label;
+    if (persist) localStorage.setItem('omnichat-sidebar-collapsed', collapsed ? 'true' : 'false');
+  }
+
+  function toggleSidebar() {
+    if (window.matchMedia('(min-width: 821px)').matches) {
+      setDesktopSidebarCollapsed(!document.body.classList.contains('sidebar-collapsed'));
+      return;
+    }
+    if (document.body.classList.contains('sidebar-open')) closeSidebar();
+    else openSidebar();
+  }
+
+  function syncSidebarForViewport() {
+    const desktop = window.matchMedia('(min-width: 821px)').matches;
+    if (desktop) {
+      document.body.classList.remove('sidebar-open');
+      $('#sidebar-scrim').hidden = true;
+      setDesktopSidebarCollapsed(localStorage.getItem('omnichat-sidebar-collapsed') === 'true', false);
+      return;
+    }
+    const menuButton = $('#menu-button');
+    const open = document.body.classList.contains('sidebar-open');
+    const label = open ? '關閉章節選單' : '開啟章節選單';
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', label);
+    menuButton.title = label;
   }
 
   let timerRemaining = 15 * 60;
@@ -1609,7 +1655,7 @@
       }
     });
 
-    $('#menu-button').addEventListener('click', openSidebar);
+    $('#menu-button').addEventListener('click', toggleSidebar);
     $('#mobile-brand').addEventListener('click', openSidebar);
     $('#sidebar-close').addEventListener('click', closeSidebar);
     $('#sidebar-scrim').addEventListener('click', closeSidebar);
@@ -1646,7 +1692,10 @@
       }
     });
     window.addEventListener('scroll', hideGlossaryTooltip, true);
-    window.addEventListener('resize', hideGlossaryTooltip);
+    window.addEventListener('resize', () => {
+      hideGlossaryTooltip();
+      syncSidebarForViewport();
+    });
   }
 
   renderAll();
@@ -1654,6 +1703,7 @@
   initProgress();
   initNotes();
   setBoundaryMode(localStorage.getItem('omnichat-boundary-mode') || 'safe');
+  syncSidebarForViewport();
   updateTimerDisplay();
   const initial = location.hash.replace('#', '');
   showChapter(chapters.some((chapter) => chapter.id === initial) ? initial : 'quick', false);
