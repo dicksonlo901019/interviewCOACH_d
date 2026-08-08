@@ -311,8 +311,7 @@
         const span = document.createElement('span');
         span.className = 'glossary-term';
         span.tabIndex = 0;
-        span.setAttribute('role', 'button');
-        span.setAttribute('aria-expanded', 'false');
+        span.setAttribute('role', 'term');
         span.setAttribute('aria-describedby', 'glossary-tooltip');
         span.setAttribute('aria-label', `${match.matchedText}，英文原名：${match.item.englishName}。${match.item.definition}`);
         span.dataset.glossary = match.item.term.toLowerCase();
@@ -326,18 +325,13 @@
     });
   }
 
-  let glossaryPinnedTerm = null;
-
-  function clearPinnedGlossaryTerm() {
-    if (!glossaryPinnedTerm) return;
-    glossaryPinnedTerm.classList.remove('is-pinned');
-    glossaryPinnedTerm.setAttribute('aria-expanded', 'false');
-    glossaryPinnedTerm = null;
-  }
-
-  function positionGlossaryTooltip(termElement) {
+  function showGlossaryTooltip(termElement) {
+    const item = glossaryByTerm.get(termElement.dataset.glossary);
     const tooltip = $('#glossary-tooltip');
-    if (!tooltip || tooltip.hidden) return;
+    if (!item || !tooltip) return;
+    tooltip.innerHTML = `<strong>${escapeHtml(item.term)}</strong><em>英文原名／全名：${escapeHtml(item.englishName)}</em><span>${escapeHtml(item.definition)}</span>`;
+    tooltip.hidden = false;
+    tooltip.classList.add('show');
     const rect = termElement.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
     const margin = 12;
@@ -348,31 +342,10 @@
     tooltip.style.top = placeBelow ? `${rect.bottom + 10}px` : `${rect.top - tooltipRect.height - 10}px`;
   }
 
-  function showGlossaryTooltip(termElement, pinned = false) {
-    const item = glossaryByTerm.get(termElement.dataset.glossary);
-    const tooltip = $('#glossary-tooltip');
-    if (!item || !tooltip) return;
-    if (glossaryPinnedTerm && glossaryPinnedTerm !== termElement && !pinned) return;
-    if (pinned) {
-      clearPinnedGlossaryTerm();
-      glossaryPinnedTerm = termElement;
-      termElement.classList.add('is-pinned');
-      termElement.setAttribute('aria-expanded', 'true');
-    }
-    tooltip.innerHTML = `<strong>${escapeHtml(item.term)}</strong><em>英文原名／全名：${escapeHtml(item.englishName)}</em><span>${escapeHtml(item.definition)}</span>${pinned ? '<small>已固定 · 再點一次、點擊外部或按 Esc 關閉</small>' : ''}`;
-    tooltip.dataset.pinned = pinned ? 'true' : 'false';
-    tooltip.hidden = false;
-    tooltip.classList.add('show');
-    positionGlossaryTooltip(termElement);
-  }
-
-  function hideGlossaryTooltip(force = false) {
+  function hideGlossaryTooltip() {
     const tooltip = $('#glossary-tooltip');
     if (!tooltip) return;
-    if (glossaryPinnedTerm && !force) return;
-    clearPinnedGlossaryTerm();
     tooltip.classList.remove('show');
-    tooltip.dataset.pinned = 'false';
     tooltip.hidden = true;
   }
 
@@ -1427,97 +1400,49 @@
   }
 
   let activeChapter = 0;
-  function showChapter(id, updateHash = true, focusContent = false) {
+  function showChapter(id, updateHash = true) {
     const index = chapters.findIndex((chapter) => chapter.id === id);
     if (index < 0) return;
     activeChapter = index;
     $$('.chapter-section').forEach((section) => section.classList.toggle('active', section.id === `section-${id}`));
-    $$('.nav-item').forEach((button) => {
-      const active = button.dataset.section === id;
-      button.classList.toggle('active', active);
-      if (active) button.setAttribute('aria-current', 'page');
-      else button.removeAttribute('aria-current');
-    });
+    $$('.nav-item').forEach((button) => button.classList.toggle('active', button.dataset.section === id));
     $('#chapter-index').textContent = `${String(index + 1).padStart(2, '0')} / ${String(chapters.length).padStart(2, '0')}`;
     $('#chapter-title').textContent = chapters[index].label;
     $('#footer-chapter').textContent = chapters[index].label;
     $('#previous-chapter').disabled = index === 0;
     $('#next-chapter').disabled = index === chapters.length - 1;
     if (updateHash) history.replaceState(null, '', `#${id}`);
-    hideGlossaryTooltip(true);
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     closeSidebar();
-    if (focusContent) {
-      const heading = $(`#section-${id} h1, #section-${id} h2`);
-      if (heading) {
-        heading.tabIndex = -1;
-        heading.focus({ preventScroll: true });
-      }
-    }
   }
 
-  let sidebarReturnFocus = null;
-
-  function setSidebarInteractive(interactive) {
-    const sidebar = $('#sidebar');
-    sidebar.toggleAttribute('inert', !interactive);
-    if (interactive) sidebar.removeAttribute('aria-hidden');
-    else sidebar.setAttribute('aria-hidden', 'true');
-    $$('button, input, a, [tabindex]', sidebar).forEach((element) => {
-      if (!interactive) {
-        if (!element.hasAttribute('data-sidebar-tabindex')) {
-          element.dataset.sidebarTabindex = element.hasAttribute('tabindex') ? element.getAttribute('tabindex') : '';
-        }
-        element.tabIndex = -1;
-        return;
-      }
-      if (!element.hasAttribute('data-sidebar-tabindex')) return;
-      const previous = element.dataset.sidebarTabindex;
-      if (previous === '') element.removeAttribute('tabindex');
-      else element.setAttribute('tabindex', previous);
-      delete element.dataset.sidebarTabindex;
-    });
-  }
-
-  function openSidebar(invoker = document.activeElement) {
+  function openSidebar() {
     if (window.matchMedia('(min-width: 821px)').matches) {
       setDesktopSidebarCollapsed(false);
       return;
     }
-    sidebarReturnFocus = invoker instanceof HTMLElement ? invoker : $('#menu-button');
     document.body.classList.add('sidebar-open');
-    setSidebarInteractive(true);
     $('#sidebar-scrim').hidden = false;
     $('#menu-button').setAttribute('aria-expanded', 'true');
     $('#menu-button').setAttribute('aria-label', '關閉章節選單');
     $('#menu-button').title = '關閉章節選單';
-    $('#mobile-brand').setAttribute('aria-expanded', 'true');
-    requestAnimationFrame(() => $('#sidebar-close').focus());
   }
-  function closeSidebar({ restoreFocus = false } = {}) {
+  function closeSidebar() {
     if (window.matchMedia('(min-width: 821px)').matches) return;
-    const focusTarget = restoreFocus && sidebarReturnFocus?.isConnected ? sidebarReturnFocus : null;
-    if (focusTarget) focusTarget.focus();
     document.body.classList.remove('sidebar-open');
-    setSidebarInteractive(false);
     $('#sidebar-scrim').hidden = true;
     $('#menu-button').setAttribute('aria-expanded', 'false');
     $('#menu-button').setAttribute('aria-label', '開啟章節選單');
     $('#menu-button').title = '開啟章節選單';
-    $('#mobile-brand').setAttribute('aria-expanded', 'false');
-    sidebarReturnFocus = null;
   }
 
   function setDesktopSidebarCollapsed(collapsed, persist = true) {
     document.body.classList.toggle('sidebar-collapsed', collapsed);
     const menuButton = $('#menu-button');
     const label = collapsed ? '展開左側選單' : '收合左側選單';
-    setSidebarInteractive(!collapsed);
     menuButton.setAttribute('aria-expanded', String(!collapsed));
     menuButton.setAttribute('aria-label', label);
-    menuButton.title = `${label}（Alt+M）`;
-    menuButton.textContent = collapsed ? '→' : '☰';
+    menuButton.title = label;
     if (persist) localStorage.setItem('omnichat-sidebar-collapsed', collapsed ? 'true' : 'false');
   }
 
@@ -1535,7 +1460,6 @@
     if (desktop) {
       document.body.classList.remove('sidebar-open');
       $('#sidebar-scrim').hidden = true;
-      $('#mobile-brand').setAttribute('aria-expanded', 'false');
       setDesktopSidebarCollapsed(localStorage.getItem('omnichat-sidebar-collapsed') === 'true', false);
       return;
     }
@@ -1545,8 +1469,6 @@
     menuButton.setAttribute('aria-expanded', String(open));
     menuButton.setAttribute('aria-label', label);
     menuButton.title = label;
-    $('#mobile-brand').setAttribute('aria-expanded', String(open));
-    setSidebarInteractive(open);
   }
 
   let timerRemaining = 15 * 60;
@@ -1683,15 +1605,12 @@
     document.addEventListener('click', (event) => {
       const glossaryTerm = event.target.closest('.glossary-term');
       if (glossaryTerm) {
-        if (glossaryPinnedTerm === glossaryTerm) hideGlossaryTooltip(true);
-        else {
-          glossaryTerm.focus();
-          showGlossaryTooltip(glossaryTerm, true);
-        }
-      } else hideGlossaryTooltip(true);
+        glossaryTerm.focus();
+        showGlossaryTooltip(glossaryTerm);
+      } else hideGlossaryTooltip();
 
       const nav = event.target.closest('[data-section]');
-      if (nav) showChapter(nav.dataset.section, true, true);
+      if (nav) showChapter(nav.dataset.section);
 
       const boundary = event.target.closest('[data-boundary-mode]');
       if (boundary) setBoundaryMode(boundary.dataset.boundaryMode);
@@ -1732,20 +1651,16 @@
       const searchResult = event.target.closest('[data-search-chapter]');
       if (searchResult) {
         $('#search-dialog').close();
-        showChapter(searchResult.dataset.searchChapter, true, true);
+        showChapter(searchResult.dataset.searchChapter);
       }
     });
 
     $('#menu-button').addEventListener('click', toggleSidebar);
-    $('#mobile-brand').addEventListener('click', () => openSidebar($('#mobile-brand')));
-    $('#sidebar-close').addEventListener('click', () => closeSidebar({ restoreFocus: true }));
-    $('#sidebar-scrim').addEventListener('click', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      closeSidebar({ restoreFocus: true });
-    });
-    $('#previous-chapter').addEventListener('click', () => showChapter(chapters[Math.max(0, activeChapter - 1)].id, true, true));
-    $('#next-chapter').addEventListener('click', () => showChapter(chapters[Math.min(chapters.length - 1, activeChapter + 1)].id, true, true));
+    $('#mobile-brand').addEventListener('click', openSidebar);
+    $('#sidebar-close').addEventListener('click', closeSidebar);
+    $('#sidebar-scrim').addEventListener('click', closeSidebar);
+    $('#previous-chapter').addEventListener('click', () => showChapter(chapters[Math.max(0, activeChapter - 1)].id));
+    $('#next-chapter').addEventListener('click', () => showChapter(chapters[Math.min(chapters.length - 1, activeChapter + 1)].id));
 
     $('#timer-toggle').addEventListener('click', toggleTimer);
     $('#timer-reset').addEventListener('click', () => {
@@ -1766,53 +1681,19 @@
     });
 
     document.addEventListener('keydown', (event) => {
-      const focusedTerm = event.target.closest?.('.glossary-term');
-      if (focusedTerm && (event.key === 'Enter' || event.key === ' ')) {
-        event.preventDefault();
-        focusedTerm.click();
-        return;
-      }
-      if (event.altKey && event.key.toLowerCase() === 'm') {
-        event.preventDefault();
-        toggleSidebar();
-        return;
-      }
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         openSearch();
       }
-      if (event.key === 'Tab' && document.body.classList.contains('sidebar-open')) {
-        const focusable = $$('button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])', $('#sidebar'))
-          .filter((element) => !element.inert && element.offsetParent !== null);
-        if (focusable.length) {
-          const first = focusable[0];
-          const last = focusable[focusable.length - 1];
-          if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-          } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault();
-            first.focus();
-          }
-        }
-      }
       if (event.key === 'Escape') {
-        hideGlossaryTooltip(true);
-        if (document.body.classList.contains('sidebar-open')) closeSidebar({ restoreFocus: true });
+        if (document.activeElement?.classList.contains('glossary-term')) document.activeElement.blur();
+        hideGlossaryTooltip();
+        closeSidebar();
       }
     });
-    window.addEventListener('scroll', () => {
-      if (!glossaryPinnedTerm) {
-        hideGlossaryTooltip();
-        return;
-      }
-      const rect = glossaryPinnedTerm.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) hideGlossaryTooltip(true);
-      else positionGlossaryTooltip(glossaryPinnedTerm);
-    }, true);
+    window.addEventListener('scroll', hideGlossaryTooltip, true);
     window.addEventListener('resize', () => {
-      if (glossaryPinnedTerm) positionGlossaryTooltip(glossaryPinnedTerm);
-      else hideGlossaryTooltip();
+      hideGlossaryTooltip();
       syncSidebarForViewport();
     });
   }

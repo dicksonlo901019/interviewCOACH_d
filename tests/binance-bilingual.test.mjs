@@ -21,6 +21,7 @@ test("publishes the bilingual speaking cards and shared glossary assets", async 
   assert.match(source, /href="\.\.\/"/);
   assert.match(source, /data-card-search/);
   assert.match(source, /data-glossary-open/);
+  assert.match(source, /src="\.\.\/glossary\.js\?v=20260808-binance-interactions5" defer/);
   assert.match(sourceGlossary, /showModal\(\)/);
   assert.match(sourceGlossary, /搜尋中文或英文名詞/);
 });
@@ -42,7 +43,7 @@ test("links the full guide to the speaking cards without changing the CTBC root"
   ]);
   assert.match(main, /href="\.\/speaking\/"/);
   assert.match(main, /中文在上，英文在下/);
-  assert.match(main, /src="\.\/glossary\.js" defer/);
+  assert.match(main, /src="\.\/glossary\.js\?v=20260808-binance-interactions5" defer/);
   assert.match(ctbc, /中國信託/);
   assert.doesNotMatch(ctbc, /雙語口說卡/);
 });
