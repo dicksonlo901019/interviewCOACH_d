@@ -25,9 +25,54 @@
     ['rollback', '回復版本', 'Rollback', '新版本出現重大問題時，回到先前穩定版本或關閉變更。', 'Returning to a stable version or disabling a change when a release causes a serious problem.', ['rollback']],
     ['guardrail', '保護指標', 'Guardrail metric', '用來確認主要目標改善時，沒有同時傷害安全、品質或其他關鍵結果。', 'A metric that checks whether progress on a main goal harms safety, quality, or another key outcome.', ['guardrail']],
     ['data-freshness', '資料新鮮度', 'Data freshness', '資料距離最新狀態的時間差，用來判斷畫面或計算是否仍可信。', 'The age of data relative to the latest state, used to judge whether a view or calculation is still reliable.', ['freshness']],
-    ['restatement', '重算修正', 'Restatement', '來源資料或計算規則改變後，重新計算並清楚標示修正結果。', 'A recalculation after source data or rules change, with the corrected result clearly identified.', ['restatement']]
+    ['restatement', '重算修正', 'Restatement', '來源資料或計算規則改變後，重新計算並清楚標示修正結果。', 'A recalculation after source data or rules change, with the corrected result clearly identified.', ['restatement']],
+    ['blast-radius', '影響範圍', 'Blast radius', '一個問題影響到多少使用者、帳戶、資產、地區或系統，用來判斷嚴重度與處理順序。', 'The users, accounts, assets, regions, or systems affected by a problem, used to assess severity and response priority.', ['blast radius']],
+    ['ledger-mismatch', '帳務資料不一致', 'Ledger mismatch', '兩個應該一致的帳務來源出現金額、狀態或筆數差異，需要進一步對帳與追查。', 'A difference in amount, status, or record count between ledger sources that should agree and therefore requires reconciliation.', ['ledger mismatch']],
+    ['event-delay', '事件延遲', 'Event delay', '一筆事件已發生，但尚未在下游資料或畫面中更新，可能造成短暫的不一致。', 'A delay between an event occurring and appearing in downstream data or the user interface, which can create a temporary mismatch.', ['event delay']],
+    ['authoritative-ledger', '權威帳務服務', 'Authoritative ledger service', '被指定為帳戶餘額與帳務狀態主要依據的服務，其他資料應以它為準進行比對。', 'The designated primary service for account balances and ledger states, used as the reference when other data is compared.', ['authoritative ledger service']]
   ].map(([key, zhTerm, enTerm, zh, en, aliases]) => ({ key, zhTerm, enTerm, zh, en, aliases }));
   const termByKey = new Map(terms.map((term) => [term.key, term]));
+
+  function annotateTerms() {
+    const aliasMap = new Map();
+    terms.forEach((term) => {
+      [term.enTerm, ...term.aliases].forEach((alias) => {
+        const normalized = alias.trim().toLowerCase();
+        if (normalized.length >= 3 && !aliasMap.has(normalized)) aliasMap.set(normalized, term);
+      });
+    });
+    const aliases = [...aliasMap.keys()].sort((a, b) => b.length - a.length);
+    const escaped = aliases.map((alias) => alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const matcher = new RegExp(`\\b(${escaped.join('|')})\\b`, 'gi');
+
+    document.querySelectorAll('.language-block.en, .research-notes-content').forEach((root) => {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      const textNodes = [];
+      while (walker.nextNode()) textNodes.push(walker.currentNode);
+      textNodes.forEach((textNode) => {
+        if (!textNode.nodeValue?.trim()) return;
+        if (textNode.parentElement?.closest('button, a, code, pre, script, style, [data-term-key], .language-label')) return;
+        matcher.lastIndex = 0;
+        if (!matcher.test(textNode.nodeValue)) return;
+        matcher.lastIndex = 0;
+        const fragment = document.createDocumentFragment();
+        let lastIndex = 0;
+        for (const match of textNode.nodeValue.matchAll(matcher)) {
+          const term = aliasMap.get(match[0].toLowerCase());
+          if (!term || match.index === undefined) continue;
+          fragment.append(document.createTextNode(textNode.nodeValue.slice(lastIndex, match.index)));
+          const trigger = element('button', 'inline-term-trigger', match[0]);
+          trigger.type = 'button';
+          trigger.dataset.termKey = term.key;
+          trigger.setAttribute('aria-label', `${match[0]}：${term.zhTerm}。開啟名詞解釋`);
+          fragment.append(trigger);
+          lastIndex = match.index + match[0].length;
+        }
+        fragment.append(document.createTextNode(textNode.nodeValue.slice(lastIndex)));
+        textNode.replaceWith(fragment);
+      });
+    });
+  }
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -154,6 +199,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    annotateTerms();
     const glossary = buildDialog();
     const preview = buildPreview();
     const topbar = document.querySelector('.topbar');
