@@ -11,7 +11,7 @@ test("gives the Binance guide a persistent and accessible responsive sidebar", a
     readFile(new URL("public/binance/enhancements.css", root), "utf8"),
   ]);
 
-  assert.match(html, /src="\.\/interactions\.js\?v=20260808-binance-interactions5" defer/);
+  assert.match(html, /src="\.\/interactions\.js\?v=20260808-binance-interactions6" defer/);
   assert.match(script, /binance-sidebar-collapsed/);
   assert.match(script, /binance-sidebar-collapsed'/);
   assert.match(script, /binance-nav-open/);
@@ -28,6 +28,7 @@ test("gives the Binance guide a persistent and accessible responsive sidebar", a
   assert.match(script, /event\.key !== 'Tab'/);
   assert.match(script, /focusHashTarget\(\)/);
   assert.match(script, /aria-current', 'page'/);
+  assert.match(script, /document\.addEventListener\('binance:bilingual-ready'/);
   assert.match(styles, /body\.binance-sidebar-collapsed \.app/);
   assert.match(styles, /body\.binance-nav-open[\s\S]*overflow: hidden/);
   assert.match(styles, /\.close-menu[\s\S]*display: none/);

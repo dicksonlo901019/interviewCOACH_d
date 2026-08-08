@@ -35,13 +35,51 @@ export function validateGlossary(source, { minimumTerms = 1 } = {}) {
   return keys.length;
 }
 
+export function parseQuestionBankData(source) {
+  const prefix = "window.BINANCE_QUESTION_BANK = Object.freeze(";
+  assert.ok(source.startsWith(prefix), "question-bank data must use the registered browser payload contract");
+  assert.ok(source.trimEnd().endsWith(");"), "question-bank data must close the payload contract");
+  return JSON.parse(source.slice(prefix.length, source.lastIndexOf(");")));
+}
+
+export function validateQuestionBankData(source, { expectedQuestions = 60 } = {}) {
+  const bank = parseQuestionBankData(source);
+  assert.equal(bank.questions.length, expectedQuestions, `expected exactly ${expectedQuestions} canonical questions`);
+  assert.equal(new Set(bank.questions.map((question) => question.id)).size, bank.questions.length, "canonical question IDs must be unique");
+  assert.deepEqual(
+    Object.fromEntries(bank.categoryOrder.map(({ key }) => [key, bank.questions.filter((question) => question.category === key).length])),
+    { cex: 24, pm: 14, ai: 12, general: 10 },
+  );
+  assert.equal(Object.keys(bank.sourceSnapshots).length, 4, "question-bank data must preserve all four accepted source snapshots");
+
+  for (const question of bank.questions) {
+    const requiredStrings = [
+      "questionZh", "questionEn", "whatItTestsZh", "whatItTestsEn",
+      "answerZh15", "answerEn15", "followUpZh", "followUpEn",
+    ];
+    requiredStrings.forEach((field) => assert.ok(question[field]?.trim(), `${question.id} requires ${field}`));
+    assert.equal(question.answerZhLong.length, 3, `${question.id} requires three Chinese long-answer points`);
+    assert.equal(question.answerEnLong.length, 3, `${question.id} requires three English long-answer points`);
+    const chineseOral = [question.answerZh15, ...question.answerZhLong, question.followUpZh];
+    const englishOral = [question.answerEn15, ...question.answerEnLong, question.followUpEn];
+    chineseOral.forEach((answer) => assert.doesNotMatch(answer, /[A-Za-z]/, `${question.id} mixes English into Chinese oral content`));
+    englishOral.forEach((answer) => assert.doesNotMatch(answer, /[\u3400-\u9fff]/, `${question.id} mixes Chinese into English oral content`));
+    assert.ok(question.answerZh15.length <= 260, `${question.id} Chinese short answer is too long`);
+    assert.ok(question.answerEn15.split(/\s+/).length <= 120, `${question.id} English short answer is too long`);
+    assert.ok(question.evidence.length >= 1, `${question.id} requires an evidence boundary`);
+    assert.equal(question.timingStatus, "TIMING_HOLD", `${question.id} must not claim unrecorded timing verification`);
+  }
+  return bank.questions.length;
+}
+
 export async function validateRegisteredGuide(root, guide, options = {}) {
-  const [speaking, glossary] = await Promise.all([
+  const [speaking, glossary, questionBank] = await Promise.all([
     readFile(new URL(`../${guide.speakingPage}`, root), "utf8"),
     readFile(new URL(`../${guide.glossary}`, root), "utf8"),
+    guide.questionBank ? readFile(new URL(`../${guide.questionBank}`, root), "utf8") : Promise.resolve(null),
   ]);
   return {
-    cards: validateSpeakingCards(speaking, options),
+    cards: questionBank ? validateQuestionBankData(questionBank, options) : validateSpeakingCards(speaking, options),
     terms: validateGlossary(glossary, options),
   };
 }

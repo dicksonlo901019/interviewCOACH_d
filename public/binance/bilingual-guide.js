@@ -10,11 +10,19 @@
     'pb-1': '角色需求拆解與證據對照',
     'st-2': '六十秒自我介紹',
     'pb-2': '招募面談實戰腳本',
-    'st-3-1': '損益資料、成本價與頁面迭代',
+    'st-3-1-pnl': '損益資料、成本價與頁面迭代',
     'st-3-2': '錢包應用程式全頁體驗優化',
     'st-3-3': '全量對帳與流水處理',
     'st-3-4': '充值與提現頁面優化',
     'st-3-5': '錢包風險與法遵需求對接',
+    'st-3-1': '九十秒提案總覽',
+    'acc-problem': '為什麼不是單點改版',
+    'acc-model': '產品心智模型與資訊架構',
+    'acc-pnl': '可解釋的損益契約',
+    'acc-activity': '統一活動紀錄與對帳',
+    'acc-money': '充提狀態與異常恢復',
+    'acc-rollout': '推進順序與成功衡量',
+    'acc-boundary': '提案邊界與追問應對',
     'pb-4-1': '你會如何設計帳戶總覽？',
     'pb-4-2': '你會如何定義「今日損益」？',
     'pb-4-3': '跨帳戶損益最容易錯在哪裡？',
@@ -51,17 +59,19 @@
     '對帳、資料治理與技術題',
     '情境案例、領導與文化',
     '英文切換、表達與避雷',
-    '反問、合約與面試後'
+    '反問、合約與面試後',
+    '資產控制中心提案口說'
   ];
 
   const phaseById = new Map([
     [['pb-intro', 'st-intro', 'st-0', 'st-1', 'st-8', 'pb-8'], phaseTitles[0]],
     [['pb-0', 'pb-1', 'st-2', 'pb-2'], phaseTitles[1]],
-    [['st-3-1', 'st-3-2', 'st-3-3', 'st-3-4', 'st-3-5', 'pb-4-1', 'pb-4-2', 'pb-4-3', 'pb-4-4'], phaseTitles[2]],
+    [['st-3-1-pnl', 'st-3-2', 'st-3-3', 'st-3-4', 'st-3-5', 'pb-4-1', 'pb-4-2', 'pb-4-3', 'pb-4-4'], phaseTitles[2]],
     [['pb-4-5', 'pb-4-6', 'pb-4-7', 'pb-4-8', 'pb-4-9', 'pb-4-10', 'pb-4-11', 'st-4'], phaseTitles[3]],
     [['pb-3-1', 'pb-3-2', 'pb-3-3', 'pb-3-4', 'pb-3-5', 'st-5', 'pb-5'], phaseTitles[4]],
     [['st-6', 'st-7', 'st-10'], phaseTitles[5]],
-    [['st-9', 'pb-6', 'pb-7', 'st-11', 'pb-9'], phaseTitles[6]]
+    [['st-9', 'pb-6', 'pb-7', 'st-11', 'pb-9'], phaseTitles[6]],
+    [['st-3-1', 'acc-problem', 'acc-model', 'acc-pnl', 'acc-activity', 'acc-money', 'acc-rollout', 'acc-boundary'], phaseTitles[7]]
   ].flatMap(([ids, phase]) => ids.map((id) => [id, phase])));
 
   const answers = {
@@ -105,7 +115,7 @@
       zh: '招募面談要直接回答動機、轉職原因、合約意願與經驗缺口。我的離職原因是組織調整與人力縮編，不是主動離職。對合約職缺保持開放，但要確認期限、續約條件、雇用主與福利。',
       en: 'The recruiter screen should address motivation, departure reason, contract interest, and experience gaps directly. I left because of an organizational adjustment and headcount reduction, not a voluntary resignation. I am open to a contract role, but I need to confirm its length, renewal criteria, employing entity, and benefits.'
     },
-    'st-3-1': {
+    'st-3-1-pnl': {
       zh: '我會先定義損益範圍，再談資料與畫面。先確認包含哪些帳戶與資產，再定義成本、價格、費用、轉帳與重算規則。最後用正常案例和例外案例，讓產品、資料與工程用同一套標準驗收。',
       en: 'I would define the profit-and-loss scope before discussing data or screens. First, confirm the included accounts and assets. Then define cost, price, fees, transfers, and recalculation rules. Finally, use normal and edge cases so product, data, and engineering validate the same standard.'
     },
@@ -124,6 +134,38 @@
     'st-3-5': {
       zh: '產品經理不應自行解釋或放寬法規。我會確認政策來源、版本、適用對象、觸發條件與決策負責人，再把政策轉成可測試的產品狀態。使用者要知道下一步，但不能看到可能被規避的控制細節。',
       en: 'A product manager should not interpret or weaken regulation independently. I would confirm the policy source, version, affected users, triggers, and decision owner, then convert the policy into testable product states. Users need a clear next step without seeing control details that could be bypassed.'
+    },
+    'st-3-1': {
+      zh: '我的提案不是再做一次錢包改版，而是建立一個資產控制中心。它先統一帳戶、資產、餘額狀態與業務事件的定義，再讓使用者回答四個問題：我有多少、資產在哪裡、為什麼變動、某筆錢現在怎麼了。這能把損益、對帳、充提與風險要求放進同一套可信任的產品語言。這是我的建議方向，不代表幣安現行架構。',
+      en: 'My proposal is not another wallet redesign. It is an asset control center that first aligns the meaning of accounts, assets, balance states, and business events. It then helps users answer four questions: how much do I have, where are my assets, why did they change, and what happened to a specific movement? This creates one trusted product language for profit and loss, reconciliation, money movement, and risk controls. It is a recommendation, not a claim about Binance’s current architecture.'
+    },
+    'acc-problem': {
+      zh: '我把問題定義成資料語義分散，而不只是畫面分散。當不同業務各自解釋帳戶、餘額、成本、費用與狀態時，使用者會看到同一筆資產在不同頁面有不同答案。只改單一頁面會讓不一致繼續存在，所以我會先找出權威定義、資料責任與例外處理，再決定哪些畫面需要改。',
+      en: 'I define the problem as fragmented data semantics, not merely fragmented screens. When each business line interprets accounts, balances, cost, fees, and states differently, the same asset can produce different answers across pages. A single-page redesign would preserve the inconsistency. I would first align authoritative definitions, data ownership, and exception handling, then decide which surfaces should change.'
+    },
+    'acc-model': {
+      zh: '我會先分開四個容易混淆的概念：帳戶是資產所在的產品容器，資產是幣種或部位，餘額狀態說明可用、鎖定、等待或負債，業務事件則解釋數字為什麼改變。產品介面再依使用者問題組合這四層。這樣總覽、損益與活動紀錄可以共用定義，又不需要假裝底層只有一種物件。',
+      en: 'I would separate four concepts that are often confused. An account is the product container, an asset is the currency or position, a balance state explains whether value is available, locked, pending, or owed, and a business event explains why the number changed. Product surfaces can then combine these layers around user questions. Overview, profit and loss, and activity history can share definitions without pretending that every underlying object is the same.'
+    },
+    'acc-pnl': {
+      zh: '在討論損益頁面前，我會先凍結九項契約：用途、範圍、成本方法、資金流、損益組成、估值、時間、重算規則與驗收案例。特別要分開外部入金與內部轉帳，並說清楚已實現、未實現、手續費、資金費、利息、獎勵、強制平倉與人工調整。定義沒有版本與核准人之前，我不會承諾一個看似精準的數字。',
+      en: 'Before discussing the profit-and-loss screen, I would freeze nine contract areas: purpose, scope, cost method, cash flow, components, valuation, time, restatement, and acceptance cases. External funding and internal transfers must be separated. Realized and unrealized results, fees, funding, interest, rewards, liquidation, and adjustments must be explicit. I would not promise a precise-looking number until the definition has a version and an accountable approver.'
+    },
+    'acc-activity': {
+      zh: '統一活動紀錄的目標是讓使用者追蹤一筆資產變動，不是把訂單、成交、帳務分錄與充提硬併成同一物件。我會保留各自識別碼與狀態，再建立可追溯的關聯。對帳則定義比對物件、權威來源、時間窗、恆等規則、差異分類與處理負責人。畫面提供解釋，帳本與原始資料保留稽核能力。',
+      en: 'The goal of a unified activity history is to help users trace an asset movement, not to force orders, trades, ledger entries, deposits, and withdrawals into one object. I would preserve their identifiers and states while creating traceable relationships. Reconciliation would define the compared object, authoritative source, time window, invariant, exception class, and resolution owner. The interface provides explanation, while ledgers and source records preserve auditability.'
+    },
+    'acc-money': {
+      zh: '充提體驗的優先級應由不可逆錯誤決定。送出前要確認幣種、網路、地址、附加識別、費用、限額與安全條件；送出後要清楚區分已提交、審查中、處理中、已廣播、完成、失敗與拒絕。每個異常狀態都要說明目前發生什麼、使用者能做什麼，以及何時可以求助。實際控制規則仍由風險與法遵負責人核准。',
+      en: 'Deposit and withdrawal priorities should be driven by irreversible-error risk. Before submission, confirm the asset, network, address, additional identifier, fee, limit, and security conditions. After submission, distinguish submitted, under review, processing, broadcast, completed, failed, and rejected states. Every exception should explain what happened, what the user can do, and when support is available. Risk and compliance owners still approve the actual control rules.'
+    },
+    'acc-rollout': {
+      zh: '我會分三步推進。第一步先確認決策權、資料來源、帳戶分類與基準問題；第二步交付一個可驗證的最小範圍，例如單一帳戶族群的損益契約或活動追蹤；第三步才擴大到跨帳戶總覽與整體體驗。成效不只看瀏覽量，也看差異率、資料完整度、更新時間、異常恢復、客服需求與使用者理解。基準和目標要用內部資料確認。',
+      en: 'I would use three stages. First, confirm decision rights, data sources, account taxonomy, and baseline problems. Second, deliver one verifiable slice, such as a profit-and-loss contract or activity trace for one account family. Third, expand to cross-account overview and the wider experience. Success should include reconciliation gaps, completeness, freshness, exception recovery, support demand, and user comprehension, not only page views. Baselines and targets require internal data.'
+    },
+    'acc-boundary': {
+      zh: '我會把提案中的內容分成四類。過去做過的帳戶矩陣、資產快照、估值、充提、審批、風險與對帳需求，可以用經驗說明；公開產品資訊只能描述外部可觀察事實；產品架構、路線圖與指標是我的建議；登入後頁面、內部資料流與現行決策權若未確認，就直接標示未知。這樣提案可以具體，也不會把推測說成內部現況。',
+      en: 'I would separate the proposal into four evidence classes. My work on account matrices, asset snapshots, valuation, deposits, withdrawals, approvals, risk, and reconciliation requirements can be described as direct experience. Public product information supports only externally observable facts. The product architecture, roadmap, and metrics are recommendations. Authenticated screens, internal data flows, and current decision rights remain unknown until confirmed. This keeps the proposal concrete without presenting assumptions as internal reality.'
     },
     'pb-4-1': {
       zh: '帳戶總覽要讓使用者快速回答三個問題：我有多少資產、資產在哪裡、數字何時更新。我會先定義納入總額的帳戶，再區分可用、鎖定、等待與負債。不同資產要用一致的價格來源和時間換算，內部轉帳也不能重複計算。',
@@ -266,6 +308,57 @@
     return details;
   }
 
+  const proposalIds = ['st-3-1', 'acc-problem', 'acc-model', 'acc-pnl', 'acc-activity', 'acc-money', 'acc-rollout', 'acc-boundary'];
+
+  function createProposalLink(id, index, className = 'chapter-link') {
+    const link = document.createElement('a');
+    link.className = className;
+    link.href = `#${id}`;
+    link.dataset.search = `${chineseTitles[id]} ${answers[id].zh} ${answers[id].en}`;
+    const number = document.createElement('small');
+    number.textContent = `08.${String(index + 1).padStart(2, '0')}`;
+    const label = document.createElement('span');
+    label.textContent = chineseTitles[id];
+    if (className === 'chapter-link') {
+      const arrow = document.createElement('b');
+      arrow.textContent = '›';
+      link.append(number, label, arrow);
+    } else {
+      link.append(number, label);
+    }
+    return link;
+  }
+
+  function injectProposalNavigation() {
+    const phaseNav = document.querySelector('.phase-nav');
+    if (phaseNav && !phaseNav.querySelector('a[href="#st-3-1"]')) {
+      const phase = document.createElement('details');
+      phase.className = 'phase';
+      if (location.hash === '#st-3-1' || location.hash.startsWith('#acc-')) phase.open = true;
+      const summary = document.createElement('summary');
+      const phaseNumber = document.createElement('span');
+      phaseNumber.textContent = '08';
+      const phaseTitle = document.createElement('strong');
+      phaseTitle.textContent = phaseTitles[7];
+      const icon = document.createElement('i');
+      icon.textContent = '＋';
+      summary.append(phaseNumber, phaseTitle, icon);
+      const chapters = document.createElement('div');
+      chapters.className = 'phase-chapters';
+      proposalIds.forEach((id, index) => chapters.append(createProposalLink(id, index)));
+      phase.append(summary, chapters);
+      phaseNav.append(phase);
+    }
+
+    document.querySelectorAll('.index-links').forEach((indexRoot) => {
+      if (indexRoot.querySelector('a[href="#st-3-1"]')) return;
+      proposalIds.forEach((id, index) => {
+        const link = createProposalLink(id, index, '');
+        indexRoot.append(link);
+      });
+    });
+  }
+
   function normalizeNavigation() {
     Object.entries(chineseTitles).forEach(([id, title]) => {
       document.querySelectorAll(`.sidebar a[href="#${id}"], .topbar a[href="#${id}"]`).forEach((link) => {
@@ -277,6 +370,9 @@
     });
     document.querySelectorAll('.phase-nav .phase > summary strong').forEach((title, index) => {
       if (phaseTitles[index]) title.textContent = phaseTitles[index];
+    });
+    document.querySelectorAll('.phase-nav .phase > summary span').forEach((number, index) => {
+      number.textContent = String(index + 1).padStart(2, '0');
     });
     document.querySelectorAll('.chapter-page').forEach((page) => {
       const kicker = page.querySelector('.chapter-kicker');
@@ -330,10 +426,11 @@
     links.setAttribute('aria-label', '快速開始');
     [
       ['#st-2', '自我介紹'],
-      ['#st-3-1', '資產與損益'],
+      ['#st-3-1', '提案九十秒總覽'],
+      ['#st-3-1-pnl', '資產與損益'],
       ['#pb-4-5', '對帳與異常處理'],
       ['#pb-3-1', '領導案例'],
-      ['./speaking/', '雙語口說卡']
+      ['./speaking/', '60 題雙語口說題庫']
     ].forEach(([href, label]) => {
       const link = document.createElement('a');
       link.href = href;
@@ -360,6 +457,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    injectProposalNavigation();
     normalizeNavigation();
     renderQuickPage();
     Object.entries(answers).forEach(([id, answer]) => {

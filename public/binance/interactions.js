@@ -200,6 +200,10 @@
   });
 
   window.addEventListener('hashchange', updateActiveNavigation);
+  document.addEventListener('binance:bilingual-ready', () => {
+    updateActiveNavigation();
+    focusHashTarget();
+  });
   window.addEventListener('resize', syncViewport);
   syncViewport();
   updateActiveNavigation();

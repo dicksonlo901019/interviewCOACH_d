@@ -22,7 +22,12 @@ test("publishes the approved Binance coach as an isolated Pages route", async ()
   assert.match(source, /<title>Binance Asset Module｜Interview Coach<\/title>/);
   assert.match(source, /id="nav-toggle"/);
   assert.match(source, /id="focus-toggle"/);
-  assert.match(source, /src="\.\/interactions\.js\?v=20260808-binance-interactions5" defer/);
+  assert.match(source, /src="\.\/interactions\.js\?v=20260808-binance-interactions6" defer/);
+  assert.match(source, /開始 60 題口說練習/);
+  assert.match(source, /<section id="st-3-1" class="page chapter-page proposal-page">/);
+  assert.match(source, /<section id="st-3-1-pnl" class="page chapter-page">/);
+  assert.match(source, /id="acc-boundary"/);
+  assert.match(source, /九十秒提案總覽/);
 
   assert.match(ctbcRoot, /中國信託/);
   assert.match(ctbcRoot, /虛擬資產 PM 面試作戰室/);

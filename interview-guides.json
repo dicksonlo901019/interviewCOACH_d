@@ -12,7 +12,9 @@
       "slug": "binance",
       "root": "public/binance",
       "speakingPage": "public/binance/speaking/index.html",
-      "glossary": "public/binance/glossary.js"
+      "glossary": "public/binance/glossary.js",
+      "questionBank": "public/binance/question-bank-data.js",
+      "questionBankApp": "public/binance/question-bank.js"
     }
   ]
 }
