@@ -5,8 +5,8 @@ import { validateGlossary, validateSpeakingCards } from "./helpers/interview-con
 
 const root = new URL("../", import.meta.url);
 
-test("publishes the bilingual speaking cards and shared glossary assets", async () => {
-  const [source, built, sourceGlossary, builtGlossary, sourceStyles, builtStyles, sourceGuide, builtGuide] = await Promise.all([
+test("publishes the bilingual speaking cards and shared interaction assets", async () => {
+  const [source, built, sourceGlossary, builtGlossary, sourceStyles, builtStyles, sourceGuide, builtGuide, sourceSpeech, builtSpeech] = await Promise.all([
     readFile(new URL("public/binance/speaking/index.html", root), "utf8"),
     readFile(new URL("pages-dist/binance/speaking/index.html", root), "utf8"),
     readFile(new URL("public/binance/glossary.js", root), "utf8"),
@@ -15,18 +15,43 @@ test("publishes the bilingual speaking cards and shared glossary assets", async 
     readFile(new URL("pages-dist/binance/enhancements.css", root), "utf8"),
     readFile(new URL("public/binance/bilingual-guide.js", root), "utf8"),
     readFile(new URL("pages-dist/binance/bilingual-guide.js", root), "utf8"),
+    readFile(new URL("public/binance/speech.js", root), "utf8"),
+    readFile(new URL("pages-dist/binance/speech.js", root), "utf8"),
   ]);
 
   assert.equal(built, source);
   assert.equal(builtGlossary, sourceGlossary);
   assert.equal(builtStyles, sourceStyles);
   assert.equal(builtGuide, sourceGuide);
+  assert.equal(builtSpeech, sourceSpeech);
   assert.match(source, /href="\.\.\/"/);
   assert.match(source, /data-card-search/);
   assert.match(source, /data-glossary-open/);
   assert.match(source, /src="\.\.\/glossary\.js\?v=20260808-binance-bilingual6" defer/);
+  assert.match(source, /src="\.\.\/speech\.js\?v=20260808-binance-audio7" defer/);
   assert.match(sourceGlossary, /showModal\(\)/);
   assert.match(sourceGlossary, /搜尋中文或英文名詞/);
+});
+
+test("limits the speech pilot to the 60-second introduction with bilingual controls", async () => {
+  const [speaking, guide, main, speech] = await Promise.all([
+    readFile(new URL("public/binance/speaking/index.html", root), "utf8"),
+    readFile(new URL("public/binance/bilingual-guide.js", root), "utf8"),
+    readFile(new URL("public/binance/index.html", root), "utf8"),
+    readFile(new URL("public/binance/speech.js", root), "utf8"),
+  ]);
+  assert.equal((speaking.match(/data-speech-pilot/g) ?? []).length, 1);
+  assert.match(speaking, /<article class="speaking-card" id="intro" data-speech-pilot/);
+  assert.match(guide, /if \(id === 'st-2'\) pair\.dataset\.speechPilot = ''/);
+  assert.match(main, /src="\.\/speech\.js\?v=20260808-binance-audio7" defer/);
+  assert.match(speech, /SpeechSynthesisUtterance/);
+  assert.match(speech, /'zh-TW'/);
+  assert.match(speech, /'en-US'/);
+  assert.match(speech, /synth\.pause\(\)/);
+  assert.match(speech, /synth\.resume\(\)/);
+  assert.match(speech, /synth\.cancel\(\)/);
+  assert.match(speech, /voiceschanged/);
+  assert.deepEqual([...speech.matchAll(/\[0\.8, 1, 1\.2\]/g)].length, 1);
 });
 
 test("keeps every spoken answer Chinese-first, English-second, and language-separated", async () => {
