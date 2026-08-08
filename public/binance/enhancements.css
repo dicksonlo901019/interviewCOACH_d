@@ -435,6 +435,87 @@
   letter-spacing: 0.12em;
 }
 
+.speech-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 14px;
+}
+
+.speech-button,
+.speech-rate {
+  min-height: 40px;
+  border: 1px solid #9ba5b5;
+  border-radius: 0;
+  background: #fff;
+  color: #0b1220;
+  font: 750 13px/1 var(--sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+}
+
+.speech-button {
+  padding: 0 13px;
+  cursor: pointer;
+}
+
+.speech-button-primary {
+  border-color: #d5a400;
+  background: #f0b90b;
+}
+
+.speech-button:hover:not(:disabled),
+.speech-button:focus-visible,
+.speech-rate:focus-visible {
+  border-color: #9a7600;
+  outline: 3px solid rgba(240, 185, 11, 0.28);
+  outline-offset: 2px;
+}
+
+.speech-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.speech-rate-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #687287;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.speech-rate {
+  padding: 0 26px 0 10px;
+}
+
+.language-block.is-speaking {
+  box-shadow: inset 4px 0 0 #f0b90b;
+  background: #fff9df;
+}
+
+.speech-status {
+  margin: 0;
+  color: #687287;
+  font-size: 12px;
+}
+
+.speech-status:empty {
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .language-block p {
   margin: 0;
   font-size: 17px;
@@ -866,6 +947,8 @@ body.binance-sidebar-collapsed .menu-label {
   .glossary-open,
   .card-tools,
   .card-terms,
+  .speech-controls,
+  .speech-status,
   .speaking-header {
     display: none !important;
   }
