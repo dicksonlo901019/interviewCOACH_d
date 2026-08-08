@@ -55,12 +55,7 @@
 
   function recommendedVoice(language, candidates) {
     if (language === 'zh') {
-      return candidates.find((voice) => /^zh-tw$/i.test(voice.lang) && /google.*(國語|普通話|mandarin|taiwan)/i.test(voice.name))
-        || candidates.find((voice) => /^zh-tw$/i.test(voice.lang) && /google/i.test(voice.name))
-        || candidates.find((voice) => /^zh-tw$/i.test(voice.lang))
-        || candidates.find((voice) => /google.*(普通話|mandarin)/i.test(voice.name))
-        || candidates.find((voice) => /^zh-cn$/i.test(voice.lang))
-        || null;
+      return candidates.find((voice) => /^婷婷$/i.test(voice.name.trim()) && /^zh-cn$/i.test(voice.lang)) || null;
     }
     return candidates.find((voice) => /^samantha$/i.test(voice.name) && /^en-us$/i.test(voice.lang))
       || candidates.find((voice) => /^google us english$/i.test(voice.name) && /^en-us$/i.test(voice.lang))
@@ -91,7 +86,7 @@
         control.voiceSelect.append(option);
       });
       const recommended = recommendedVoice(control.language, candidates);
-      const autoSelection = control.language === 'en' && recommended ? voiceKey(recommended) : '';
+      const autoSelection = recommended ? voiceKey(recommended) : '';
       control.voiceSelect.value = candidates.some((voice) => voiceKey(voice) === previous) ? previous : autoSelection;
       control.voiceSignature = signature;
     }
@@ -172,7 +167,7 @@
   function createControl(block, status, index) {
     const language = block.classList.contains('en') ? 'en' : 'zh';
     const labels = copy[language];
-    const text = block.querySelector('p')?.textContent.trim();
+    const text = block.querySelector('[data-speech-text], p')?.textContent.trim();
     if (!text) return;
 
     const wrapper = document.createElement('div');
@@ -254,7 +249,7 @@
       status.id = `speech-status-${targetIndex + 1}`;
       status.setAttribute('aria-live', 'polite');
       target.append(status);
-      target.querySelectorAll('.language-block').forEach((block, index) => createControl(block, status, index));
+      target.querySelectorAll('.answer-panel .language-block, :scope > .language-block').forEach((block, index) => createControl(block, status, index));
     });
   }
 
@@ -266,6 +261,8 @@
   }
   document.addEventListener('DOMContentLoaded', initialize);
   document.addEventListener('binance:bilingual-ready', initialize);
+  document.addEventListener('binance:question-bank-ready', initialize);
+  document.addEventListener('binance:answer-mode-changed', () => stopAll());
   window.addEventListener('hashchange', () => stopAll());
   window.addEventListener('pagehide', () => stopAll());
   document.addEventListener('visibilitychange', () => {

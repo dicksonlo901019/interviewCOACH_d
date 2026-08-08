@@ -21,7 +21,8 @@ test("registers every published static interview guide and enforces the shared c
 
   for (const guide of registry.guides) {
     const result = await validateRegisteredGuide(testRoot, guide, {
-      minimumCards: guide.slug === "binance" ? 15 : 1,
+      expectedQuestions: guide.slug === "binance" ? 60 : undefined,
+      minimumCards: 1,
       minimumTerms: guide.slug === "binance" ? 25 : 1,
     });
     assert.ok(result.cards >= 1);
