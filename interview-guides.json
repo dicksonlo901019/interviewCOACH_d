@@ -14,7 +14,10 @@
       "speakingPage": "public/binance/speaking/index.html",
       "glossary": "public/binance/glossary.js",
       "questionBank": "public/binance/question-bank-data.js",
-      "questionBankApp": "public/binance/question-bank.js"
+      "questionBankApp": "public/binance/question-bank.js",
+      "detailedAnswersSource": "content/binance/issue-10-pnl-answers.json",
+      "detailedAnswers": "public/binance/pnl-answers-data.js",
+      "detailedAnswersApp": "public/binance/pnl-answers.js"
     }
   ]
 }
