@@ -72,14 +72,62 @@ export function validateQuestionBankData(source, { expectedQuestions = 60 } = {}
   return bank.questions.length;
 }
 
+export function parseApprovedPnlAnswers(source) {
+  const prefix = "window.BINANCE_PNL_ANSWERS = Object.freeze(";
+  assert.ok(source.startsWith(prefix), "approved PnL data must use the registered browser payload contract");
+  assert.ok(source.trimEnd().endsWith(");"), "approved PnL data must close the payload contract");
+  return JSON.parse(source.slice(prefix.length, source.lastIndexOf(");")));
+}
+
+export function validateApprovedPnlAnswers(source, { expectedQuestions = 9 } = {}) {
+  const payload = parseApprovedPnlAnswers(source);
+  const questions = payload.groups.flatMap((group) => group.questions);
+  assert.equal(questions.length, expectedQuestions, `expected exactly ${expectedQuestions} approved PnL questions`);
+  assert.equal(new Set(questions.map((question) => question.id)).size, questions.length, "approved PnL question IDs must be unique");
+  assert.equal(new Set(questions.map((question) => question.question)).size, questions.length, "approved PnL questions must not repeat");
+  assert.equal(payload.groups[0]?.targetId, "st-3-1-pnl");
+  assert.equal(payload.groups[0]?.questions.length, 5, "section 03.01 requires five detailed questions");
+  assert.equal(payload.groups[1]?.targetId, "st-8");
+  assert.equal(payload.groups[1]?.questions.length, 4, "section 01.05 requires four detailed follow-up questions");
+
+  for (const question of questions) {
+    for (const field of ["originalZh", "spokenZh", "spokenEn"]) {
+      assert.ok(Array.isArray(question[field]) && question[field].length > 0, `${question.id} requires ${field}`);
+    }
+    const chineseFields = [question.question, ...question.originalZh, ...question.spokenZh, question.boundary];
+    chineseFields.forEach((text, index) => {
+      const bareLatin = text.replace(/[A-Za-z][A-Za-z0-9& -]*\([^)]*[\u3400-\u9fff][^)]*\)/g, "");
+      assert.doesNotMatch(bareLatin, /[A-Za-z]/, `${question.id} Chinese field ${index + 1} contains unexplained English`);
+    });
+    question.spokenEn.forEach((text, index) => {
+      assert.doesNotMatch(text, /[\u3400-\u9fff]/, `${question.id} English field ${index + 1} contains Chinese text`);
+    });
+    assert.ok(question.boundary?.trim(), `${question.id} requires an evidence and responsibility boundary`);
+    assert.ok(Array.isArray(question.terms), `${question.id} requires a term list`);
+    if (!question.terms.length) assert.ok(question.termNote?.trim(), `${question.id} requires an explicit no-term note`);
+    question.terms.forEach((term) => {
+      assert.ok(term.key && term.label && term.definitionZh, `${question.id} has an incomplete term explanation`);
+    });
+  }
+  return questions.length;
+}
+
 export async function validateRegisteredGuide(root, guide, options = {}) {
-  const [speaking, glossary, questionBank] = await Promise.all([
+  const [speaking, glossary, questionBank, detailedAnswers, detailedAnswersSource] = await Promise.all([
     readFile(new URL(`../${guide.speakingPage}`, root), "utf8"),
     readFile(new URL(`../${guide.glossary}`, root), "utf8"),
     guide.questionBank ? readFile(new URL(`../${guide.questionBank}`, root), "utf8") : Promise.resolve(null),
+    guide.detailedAnswers ? readFile(new URL(`../${guide.detailedAnswers}`, root), "utf8") : Promise.resolve(null),
+    guide.detailedAnswersSource ? readFile(new URL(`../${guide.detailedAnswersSource}`, root), "utf8") : Promise.resolve(null),
   ]);
+  if (detailedAnswers && detailedAnswersSource) {
+    assert.deepEqual(parseApprovedPnlAnswers(detailedAnswers), JSON.parse(detailedAnswersSource), "registered detailed answers must match their authority source");
+  }
   return {
     cards: questionBank ? validateQuestionBankData(questionBank, options) : validateSpeakingCards(speaking, options),
     terms: validateGlossary(glossary, options),
+    detailedAnswers: detailedAnswers ? validateApprovedPnlAnswers(detailedAnswers, {
+      expectedQuestions: options.expectedDetailedQuestions ?? 9,
+    }) : 0,
   };
 }

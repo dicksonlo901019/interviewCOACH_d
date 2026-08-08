@@ -30,6 +30,7 @@ test("gives the Binance guide a persistent and accessible responsive sidebar", a
   assert.match(script, /aria-current', 'page'/);
   assert.match(script, /document\.addEventListener\('binance:bilingual-ready'/);
   assert.match(styles, /body\.binance-sidebar-collapsed \.app/);
+  assert.match(styles, /\.topbar\s*\{\s*grid-template-columns: auto minmax\(0, 1fr\) auto auto auto;/);
   assert.match(styles, /body\.binance-nav-open[\s\S]*overflow: hidden/);
   assert.match(styles, /\.close-menu[\s\S]*display: none/);
   assert.match(styles, /@media \(max-width: 900px\)[\s\S]*\.close-menu[\s\S]*display: block/);

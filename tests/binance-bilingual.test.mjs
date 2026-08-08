@@ -94,7 +94,7 @@ test("keeps all 60 oral answers bilingual, complete, and evidence-bounded", asyn
 
 test("offers a substantial, unique bilingual glossary", async () => {
   const source = await readFile(new URL("public/binance/glossary.js", root), "utf8");
-  assert.equal(validateGlossary(source, { minimumTerms: 30 }), 30);
+  assert.equal(validateGlossary(source, { minimumTerms: 34 }), 34);
   assert.match(source, /function annotateTerms\(\)/);
   assert.match(source, /inline-term-trigger/);
   assert.match(source, /\['blast-radius'/);
@@ -146,7 +146,7 @@ test("links the full guide to the speaking cards without changing the CTBC root"
   assert.match(main, /href="\.\/speaking\/"/);
   assert.match(main, /中文在上，英文在下/);
   assert.match(main, /src="\.\/bilingual-guide\.js\?v=20260808-binance-bilingual8" defer/);
-  assert.match(main, /src="\.\/glossary\.js\?v=20260808-binance-question-bank1" defer/);
+  assert.match(main, /src="\.\/glossary\.js\?v=20260808-binance-pnl-answers1" defer/);
   assert.match(main, /開始 60 題口說練習/);
   assert.match(ctbc, /中國信託/);
   assert.doesNotMatch(ctbc, /60 題雙語口說題庫/);

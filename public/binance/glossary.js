@@ -1,8 +1,12 @@
 (() => {
   const terms = [
+    ['binance', '幣安', 'Binance', '全球加密資產交易平台；本文件不推測其未公開的內部公式或系統架構。', 'A global crypto-asset platform. This guide does not infer its unpublished formulas or system architecture.', ['Binance']],
     ['cex', '中心化交易所', 'Centralized exchange', '由公司管理交易、帳戶與資產服務的平台。使用者透過平台帳戶完成交易與資產操作。', 'A platform operated by a company that manages trading, accounts, and asset services for its users.', ['CEX']],
-    ['pnl', '損益', 'Profit and loss', '一段期間內的獲利或虧損。常見拆分為已實現損益與未實現損益。', 'The profit or loss over a period, commonly split into realized and unrealized amounts.', ['P&L']],
+    ['pnl', '損益', 'Profit and loss', '特定期間內的獲利與虧損結果；實際計算必須先定義帳戶範圍、價格、費用、時間與外部資金流。', 'The profit or loss over a period. The account scope, prices, fees, time rules, and external cash flows must be defined before calculation.', ['P&L', 'PnL']],
+    ['usdt', '泰達幣', 'USDT', '與美元價值連動的穩定幣，常作為加密資產估值或交易的顯示單位。', 'A stablecoin linked to the value of the US dollar and often used as a display unit for crypto-asset valuation or trading.', ['USDT']],
     ['cost-basis', '成本基礎', 'Cost basis', '持有資產的取得成本，是計算損益的重要基準。計算方式必須先明確定義。', 'The acquisition cost of an asset holding and a key input for calculating profit and loss.', ['cost basis']],
+    ['weighted-average', '加權平均法', 'Weighted average', '將不同時間與價格取得的資產合併計算平均成本的方法。', 'A method that combines assets acquired at different times and prices to calculate an average cost.', ['weighted average']],
+    ['fifo', '先進先出法', 'FIFO', '假設最早取得的資產最先被出售或處分的成本計算方法。', 'A cost method that assumes the earliest acquired assets are sold or disposed of first.', ['FIFO']],
     ['realized-unrealized', '已實現與未實現損益', 'Realized and unrealized P&L', '已實現損益來自已完成的交易；未實現損益則依目前持倉與市場價格估算。', 'Realized P&L comes from completed trades; unrealized P&L estimates the value change of open positions.', ['realized', 'unrealized']],
     ['account-matrix', '帳戶矩陣', 'Account matrix', '列出不同帳戶、資產與產品的適用規則，用來避免漏算或重複計算。', 'A map of account, asset, and product rules used to prevent omissions and double counting.', ['matrix']],
     ['asset-snapshot', '資產快照', 'Asset snapshot', '在指定時間點保存使用者資產狀態，方便查詢、比對與重算。', 'A saved view of a user’s assets at a specific time for lookup, comparison, and recalculation.', ['snapshot']],
@@ -25,7 +29,7 @@
     ['rollback', '回復版本', 'Rollback', '新版本出現重大問題時，回到先前穩定版本或關閉變更。', 'Returning to a stable version or disabling a change when a release causes a serious problem.', ['rollback']],
     ['guardrail', '保護指標', 'Guardrail metric', '用來確認主要目標改善時，沒有同時傷害安全、品質或其他關鍵結果。', 'A metric that checks whether progress on a main goal harms safety, quality, or another key outcome.', ['guardrail']],
     ['data-freshness', '資料新鮮度', 'Data freshness', '資料距離最新狀態的時間差，用來判斷畫面或計算是否仍可信。', 'The age of data relative to the latest state, used to judge whether a view or calculation is still reliable.', ['freshness']],
-    ['restatement', '重算修正', 'Restatement', '來源資料或計算規則改變後，重新計算並清楚標示修正結果。', 'A recalculation after source data or rules change, with the corrected result clearly identified.', ['restatement']],
+    ['restatement', '歷史損益重算', 'Restatement', '因延遲事件、價格修正、定義變更或資料回補，依核准規則重新計算歷史損益。', 'A recalculation of historical profit and loss under approved rules after late events, price corrections, definition changes, or data backfills.', ['restatement']],
     ['blast-radius', '影響範圍', 'Blast radius', '一個問題影響到多少使用者、帳戶、資產、地區或系統，用來判斷嚴重度與處理順序。', 'The users, accounts, assets, regions, or systems affected by a problem, used to assess severity and response priority.', ['blast radius']],
     ['ledger-mismatch', '帳務資料不一致', 'Ledger mismatch', '兩個應該一致的帳務來源出現金額、狀態或筆數差異，需要進一步對帳與追查。', 'A difference in amount, status, or record count between ledger sources that should agree and therefore requires reconciliation.', ['ledger mismatch']],
     ['event-delay', '事件延遲', 'Event delay', '一筆事件已發生，但尚未在下游資料或畫面中更新，可能造成短暫的不一致。', 'A delay between an event occurring and appearing in downstream data or the user interface, which can create a temporary mismatch.', ['event delay']],
@@ -172,7 +176,10 @@
       });
     }
 
-    function open(termKey) {
+    let returnFocus = null;
+
+    function open(termKey, opener) {
+      returnFocus = opener instanceof HTMLElement ? opener : document.activeElement;
       search.value = '';
       render();
       dialog.showModal();
@@ -192,6 +199,16 @@
     close.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', (event) => {
       if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      const target = returnFocus;
+      returnFocus = null;
+      if (target instanceof HTMLElement && target.isConnected) target.focus();
     });
     search.addEventListener('input', () => render(search.value));
     render();
@@ -215,7 +232,7 @@
       const opener = event.target.closest('[data-glossary-open], [data-term-key]');
       if (!opener) return;
       preview.hide();
-      glossary.open(opener.dataset.termKey || '');
+      glossary.open(opener.dataset.termKey || '', opener);
     });
 
     document.querySelectorAll('[data-term-key]').forEach((trigger) => {
