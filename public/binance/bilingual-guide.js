@@ -372,7 +372,7 @@
       const pair = document.createElement('div');
       pair.className = 'bilingual-answer';
       pair.dataset.bilingualAnswer = id;
-      if (id === 'st-2') pair.dataset.speechPilot = '';
+      pair.dataset.speechPilot = '';
       pair.append(createLanguageBlock('zh', answer.zh), createLanguageBlock('en', answer.en));
       const research = createResearchNotes(originalNodes);
       body.append(pair, research);

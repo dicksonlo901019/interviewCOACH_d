@@ -28,25 +28,34 @@ test("publishes the bilingual speaking cards and shared interaction assets", asy
   assert.match(source, /data-card-search/);
   assert.match(source, /data-glossary-open/);
   assert.match(source, /src="\.\.\/glossary\.js\?v=20260808-binance-bilingual6" defer/);
-  assert.match(source, /src="\.\.\/speech\.js\?v=20260808-binance-audio7" defer/);
+  assert.match(source, /src="\.\.\/speech\.js\?v=20260808-binance-audio11" defer/);
   assert.match(sourceGlossary, /showModal\(\)/);
   assert.match(sourceGlossary, /搜尋中文或英文名詞/);
 });
 
-test("limits the speech pilot to the 60-second introduction with bilingual controls", async () => {
+test("adds bilingual speech controls to every spoken answer", async () => {
   const [speaking, guide, main, speech] = await Promise.all([
     readFile(new URL("public/binance/speaking/index.html", root), "utf8"),
     readFile(new URL("public/binance/bilingual-guide.js", root), "utf8"),
     readFile(new URL("public/binance/index.html", root), "utf8"),
     readFile(new URL("public/binance/speech.js", root), "utf8"),
   ]);
-  assert.equal((speaking.match(/data-speech-pilot/g) ?? []).length, 1);
+  assert.equal((speaking.match(/data-speech-pilot/g) ?? []).length, 15);
   assert.match(speaking, /<article class="speaking-card" id="intro" data-speech-pilot/);
-  assert.match(guide, /if \(id === 'st-2'\) pair\.dataset\.speechPilot = ''/);
-  assert.match(main, /src="\.\/speech\.js\?v=20260808-binance-audio7" defer/);
+  assert.match(speaking, /<article class="speaking-card" id="unknown" data-speech-pilot/);
+  assert.match(guide, /pair\.dataset\.speechPilot = ''/);
+  assert.doesNotMatch(guide, /id === 'st-2'.*speechPilot/);
+  assert.match(main, /src="\.\/speech\.js\?v=20260808-binance-audio11" defer/);
   assert.match(speech, /SpeechSynthesisUtterance/);
-  assert.match(speech, /'zh-TW'/);
-  assert.match(speech, /'en-US'/);
+  assert.match(speech, /control\.voice\.lang\.replace/);
+  assert.match(speech, /google us english/i);
+  assert.match(speech, /\^samantha\$/i);
+  assert.match(speech, /cantonese\|hong kong/);
+  assert.match(speech, /\^zh-\(tw\|cn\|sg\)\$/);
+  assert.doesNotMatch(speech, /startsWith\(`\$\{prefix\}-`\)/);
+  assert.match(speech, /Choose an English voice/);
+  assert.match(speech, /voiceSelect\.value/);
+  assert.doesNotMatch(speech, /localStorage/);
   assert.match(speech, /synth\.pause\(\)/);
   assert.match(speech, /synth\.resume\(\)/);
   assert.match(speech, /synth\.cancel\(\)/);
@@ -108,7 +117,7 @@ test("links the full guide to the speaking cards without changing the CTBC root"
   ]);
   assert.match(main, /href="\.\/speaking\/"/);
   assert.match(main, /中文在上，英文在下/);
-  assert.match(main, /src="\.\/bilingual-guide\.js\?v=20260808-binance-bilingual6" defer/);
+  assert.match(main, /src="\.\/bilingual-guide\.js\?v=20260808-binance-bilingual7" defer/);
   assert.match(main, /src="\.\/glossary\.js\?v=20260808-binance-bilingual6" defer/);
   assert.match(ctbc, /中國信託/);
   assert.doesNotMatch(ctbc, /雙語口說卡/);
