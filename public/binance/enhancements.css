@@ -566,6 +566,169 @@
   }
 }
 
+.close-menu {
+  display: none;
+}
+
+.menu-label {
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid var(--line, #dfe3ea);
+  background: #fff;
+  color: var(--navy, #0b1220);
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.menu-label:hover,
+.menu-label:focus-visible,
+body.binance-sidebar-collapsed .menu-label {
+  border-color: var(--gold, #f0b90b);
+  background: rgba(240, 185, 11, 0.12);
+  outline: 0;
+}
+
+.sidebar a[aria-current="page"] {
+  border-left-color: var(--gold, #f0b90b);
+  background: #151f34;
+  color: #fff;
+}
+
+[data-term-key]:not(.glossary-entry) {
+  position: relative;
+}
+
+[data-term-key]:not(.glossary-entry):hover,
+[data-term-key]:not(.glossary-entry):focus-visible,
+[data-term-key].is-previewing {
+  border-color: var(--gold, #f0b90b);
+  background: rgba(240, 185, 11, 0.14);
+  outline: 0;
+}
+
+.glossary-preview {
+  position: fixed;
+  z-index: 140;
+  width: min(360px, calc(100vw - 24px));
+  max-height: min(420px, calc(100vh - 24px));
+  overflow: auto;
+  padding: 16px 17px;
+  border: 1px solid rgba(240, 185, 11, 0.72);
+  background: #0b1220;
+  color: #fff;
+  box-shadow: 0 18px 52px rgba(11, 18, 32, 0.34);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.glossary-preview.show {
+  opacity: 1;
+  transform: none;
+}
+
+.glossary-preview strong,
+.glossary-preview em,
+.glossary-preview span,
+.glossary-preview small {
+  display: block;
+}
+
+.glossary-preview strong {
+  color: var(--gold, #f0b90b);
+  font-size: 14px;
+}
+
+.glossary-preview em {
+  margin: 2px 0 10px;
+  color: #aeb8ca;
+  font-size: 11px;
+  font-style: normal;
+}
+
+.glossary-preview span {
+  line-height: 1.55;
+}
+
+.glossary-preview span + span {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  color: #dbe1ec;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.glossary-preview small {
+  margin-top: 10px;
+  color: #8f9bb0;
+  font-size: 10px;
+}
+
+@media (min-width: 901px) {
+  .menu-label {
+    display: grid;
+  }
+
+  .app {
+    transition: grid-template-columns 0.22s ease;
+  }
+
+  .sidebar {
+    transition: transform 0.22s ease, opacity 0.16s ease;
+  }
+
+  body.binance-sidebar-collapsed .app {
+    grid-template-columns: 0 minmax(0, 1fr);
+  }
+
+  body.binance-sidebar-collapsed .sidebar {
+    opacity: 0;
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 900px) {
+  body.binance-nav-open {
+    overflow: hidden;
+  }
+
+  .menu-label {
+    display: grid;
+  }
+
+  .close-menu {
+    display: block;
+    border: 0;
+    width: 100%;
+  }
+
+  .glossary-preview {
+    top: auto !important;
+    right: 12px;
+    bottom: 12px;
+    left: 12px !important;
+    width: auto;
+    max-height: min(52vh, 420px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @media print {
   .glossary-open,
   .card-tools,

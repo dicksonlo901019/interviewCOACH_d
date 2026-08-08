@@ -22,7 +22,7 @@ test("publishes the approved Binance coach as an isolated Pages route", async ()
   assert.match(source, /<title>Binance Asset Module｜Interview Coach<\/title>/);
   assert.match(source, /id="nav-toggle"/);
   assert.match(source, /id="focus-toggle"/);
-  assert.doesNotMatch(source, /localStorage/);
+  assert.match(source, /src="\.\/interactions\.js\?v=20260808-binance-interactions5" defer/);
 
   assert.match(ctbcRoot, /中國信託/);
   assert.match(ctbcRoot, /虛擬資產 PM 面試作戰室/);

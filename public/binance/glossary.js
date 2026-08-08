@@ -27,12 +27,54 @@
     ['data-freshness', '資料新鮮度', 'Data freshness', '資料距離最新狀態的時間差，用來判斷畫面或計算是否仍可信。', 'The age of data relative to the latest state, used to judge whether a view or calculation is still reliable.', ['freshness']],
     ['restatement', '重算修正', 'Restatement', '來源資料或計算規則改變後，重新計算並清楚標示修正結果。', 'A recalculation after source data or rules change, with the corrected result clearly identified.', ['restatement']]
   ].map(([key, zhTerm, enTerm, zh, en, aliases]) => ({ key, zhTerm, enTerm, zh, en, aliases }));
+  const termByKey = new Map(terms.map((term) => [term.key, term]));
 
   function element(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
     if (text) node.textContent = text;
     return node;
+  }
+
+  function buildPreview() {
+    const preview = element('div', 'glossary-preview');
+    preview.id = 'glossary-preview';
+    preview.setAttribute('role', 'tooltip');
+    preview.setAttribute('aria-live', 'polite');
+    preview.hidden = true;
+    document.body.append(preview);
+
+    function hide() {
+      document.querySelectorAll('[data-term-key].is-previewing').forEach((trigger) => trigger.classList.remove('is-previewing'));
+      preview.classList.remove('show');
+      preview.hidden = true;
+    }
+
+    function show(trigger) {
+      const term = termByKey.get(trigger.dataset.termKey);
+      if (!term) return;
+      document.querySelectorAll('[data-term-key].is-previewing').forEach((item) => item.classList.remove('is-previewing'));
+      trigger.classList.add('is-previewing');
+      preview.replaceChildren(
+        element('strong', '', term.zhTerm),
+        element('em', '', term.enTerm),
+        element('span', '', term.zh),
+        element('span', '', term.en),
+        element('small', '', '點按可開啟完整名詞解釋 · Press to open the full glossary'),
+      );
+      preview.hidden = false;
+      preview.classList.add('show');
+      if (window.matchMedia('(max-width: 900px)').matches) return;
+      const rect = trigger.getBoundingClientRect();
+      const previewRect = preview.getBoundingClientRect();
+      const margin = 12;
+      const left = Math.min(Math.max(margin, rect.left + (rect.width - previewRect.width) / 2), window.innerWidth - previewRect.width - margin);
+      const below = rect.bottom + previewRect.height + margin < window.innerHeight;
+      preview.style.left = `${left}px`;
+      preview.style.top = below ? `${rect.bottom + 10}px` : `${Math.max(margin, rect.top - previewRect.height - 10)}px`;
+    }
+
+    return { hide, show };
   }
 
   function buildDialog() {
@@ -113,6 +155,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const glossary = buildDialog();
+    const preview = buildPreview();
     const topbar = document.querySelector('.topbar');
     if (topbar && !topbar.querySelector('[data-glossary-open]')) {
       const button = element('button', 'glossary-open', '名詞解釋');
@@ -125,8 +168,31 @@
     document.addEventListener('click', (event) => {
       const opener = event.target.closest('[data-glossary-open], [data-term-key]');
       if (!opener) return;
+      preview.hide();
       glossary.open(opener.dataset.termKey || '');
     });
+
+    document.querySelectorAll('[data-term-key]').forEach((trigger) => {
+      trigger.setAttribute('aria-describedby', 'glossary-preview');
+    });
+    document.addEventListener('mouseover', (event) => {
+      const trigger = event.target.closest('[data-term-key]:not(.glossary-entry)');
+      if (trigger) preview.show(trigger);
+    });
+    document.addEventListener('mouseout', (event) => {
+      const trigger = event.target.closest('[data-term-key]:not(.glossary-entry)');
+      if (trigger && !trigger.contains(event.relatedTarget)) preview.hide();
+    });
+    document.addEventListener('focusin', (event) => {
+      const trigger = event.target.closest('[data-term-key]:not(.glossary-entry)');
+      if (trigger) preview.show(trigger);
+    });
+    document.addEventListener('focusout', (event) => {
+      const trigger = event.target.closest('[data-term-key]:not(.glossary-entry)');
+      if (trigger && !trigger.contains(event.relatedTarget)) preview.hide();
+    });
+    window.addEventListener('scroll', preview.hide, true);
+    window.addEventListener('resize', preview.hide);
 
     const cardSearch = document.querySelector('[data-card-search]');
     if (cardSearch) {
