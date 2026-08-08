@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "standard": "INTERVIEW_CONTENT_STANDARD.md",
+  "legacyExemptions": [
+    {
+      "slug": "omnichat",
+      "reason": "Pre-existing artifact created before this standard; any future revision must remove this exemption and comply."
+    }
+  ],
+  "guides": [
+    {
+      "slug": "binance",
+      "root": "public/binance",
+      "speakingPage": "public/binance/speaking/index.html",
+      "glossary": "public/binance/glossary.js"
+    }
+  ]
+}
